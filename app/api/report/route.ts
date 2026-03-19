@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getClientKey, rateLimit } from "@/lib/rateLimit";
 import { reportSchema } from "@/lib/schemas";
-import { createReport } from "@/services/reportService";
+import { createReport, DuplicateReportError } from "@/services/reportService";
 
 export async function POST(request: Request) {
   try {
@@ -28,6 +28,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ reportId: report.id }, { status: 201 });
   } catch (error) {
+    if (error instanceof DuplicateReportError) {
+      return NextResponse.json({ error: error.message }, { status: 409 });
+    }
+
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Invalid request." },
       { status: 400 }

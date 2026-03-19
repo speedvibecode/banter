@@ -2,12 +2,14 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { PollCard } from "@/components/PollCard";
+import { auth } from "@/lib/auth";
 import { listActivePolls, listRecentPolls } from "@/services/pollService";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [activePolls, recentPolls] = await Promise.all([
+  const [session, activePolls, recentPolls] = await Promise.all([
+    auth(),
     listActivePolls(),
     listRecentPolls()
   ]);
@@ -39,6 +41,23 @@ export default async function HomePage() {
               View Arguments
               <ArrowRight className="h-4 w-4" />
             </a>
+            {/* Surface guest auth actions in the hero so they remain reachable on small screens. */}
+            {!session?.user ? (
+              <>
+                <Link
+                  href="/login"
+                  className="rounded-lg border border-zinc-700 px-5 py-3 text-zinc-200 transition hover:border-zinc-500"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="rounded-lg border border-blue-400/40 bg-blue-500/10 px-5 py-3 text-blue-100 transition hover:border-blue-300 hover:bg-blue-500/20"
+                >
+                  Sign Up
+                </Link>
+              </>
+            ) : null}
           </div>
         </div>
       </section>

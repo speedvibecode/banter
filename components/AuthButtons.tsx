@@ -11,7 +11,7 @@ type AuthButtonsProps = {
 export function AuthButtons({ isAuthenticated, username }: AuthButtonsProps) {
   if (!isAuthenticated) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <Link
           href="/login"
           className="rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-200 transition hover:border-zinc-500"
@@ -29,7 +29,7 @@ export function AuthButtons({ isAuthenticated, username }: AuthButtonsProps) {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2">
       <span className="text-sm text-zinc-400">{username}</span>
       <button
         type="button"

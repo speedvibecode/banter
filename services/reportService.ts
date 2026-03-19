@@ -2,6 +2,7 @@ import { logger } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
 import { markPollRemoved } from "@/services/pollService";
 import { banUser } from "@/services/userService";
+import { Prisma } from "@prisma/client";
 
 type ReportInput = {
   reporterId: string;
@@ -10,26 +11,55 @@ type ReportInput = {
   notes?: string;
 };
 
+export class DuplicateReportError extends Error {
+  constructor() {
+    super("You have already reported this poll.");
+    this.name = "DuplicateReportError";
+  }
+}
+
 export async function createReport(input: ReportInput) {
-  const user = await prisma.user.findUnique({
-    where: { id: input.reporterId }
-  });
+  const [user, poll] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: input.reporterId }
+    }),
+    prisma.poll.findUnique({
+      where: { id: input.pollId },
+      select: { id: true, status: true }
+    })
+  ]);
 
   if (!user) {
     throw new Error("User not found.");
   }
 
-  const report = await prisma.report.create({
-    data: {
-      pollId: input.pollId,
-      reporterId: user.id,
-      reason: input.reason,
-      notes: input.notes || null
-    }
-  });
+  if (!poll || poll.status === "REMOVED") {
+    throw new Error("Poll not found.");
+  }
 
-  logger.info({ pollId: input.pollId, reportId: report.id }, "report submitted");
-  return report;
+  try {
+    // The unique pair prevents duplicate reports even if the same user double-submits quickly.
+    const report = await prisma.report.create({
+      data: {
+        pollId: input.pollId,
+        reporterId: user.id,
+        reason: input.reason,
+        notes: input.notes || null
+      }
+    });
+
+    logger.info({ pollId: input.pollId, reportId: report.id }, "report submitted");
+    return report;
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      throw new DuplicateReportError();
+    }
+
+    throw error;
+  }
 }
 
 export async function listReports() {

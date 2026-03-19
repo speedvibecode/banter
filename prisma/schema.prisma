@@ -101,6 +101,7 @@ model Report {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
+  @@unique([pollId, reporterId])
   @@index([pollId])
   @@index([reporterId])
   @@index([status])
