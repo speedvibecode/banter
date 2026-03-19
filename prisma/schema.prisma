@@ -5,6 +5,8 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // Neon works best with a pooled runtime connection and a direct migration connection.
+  directUrl = env("DIRECT_URL")
 }
 
 enum PollStatus {

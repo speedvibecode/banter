@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:deploy": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
+    "db:deploy": "prisma migrate deploy",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "resolve-polls": "ts-node --transpile-only -r tsconfig-paths/register scripts/resolvePolls.ts",
