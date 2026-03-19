@@ -25,7 +25,7 @@ Banter is a Next.js MVP for binary argument polls with conviction voting, determ
 ## Neon setup
 
 - Set `DATABASE_URL` to the Neon pooled connection string for app runtime.
-- Set `DIRECT_URL` to the non-pooled Neon connection string for Prisma migrations.
+- Set `DATABASE_URL_UNPOOLED` to the non-pooled Neon connection string for Prisma migrations.
 - For local development, run `npx prisma migrate dev`.
 - For production or preview deployments, run `npx prisma migrate deploy`.
 - If your host supports a custom build command, use `npm run build:deploy` so migrations are applied before `next build`.
