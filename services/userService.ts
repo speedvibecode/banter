@@ -36,14 +36,36 @@ export async function findOrCreateUser(identity: IdentityInput) {
 export async function getUser(userId: string) {
   return prisma.user.findUnique({
     where: { id: userId },
-    include: {
+    select: {
+      id: true,
+      username: true,
+      reputation: true,
+      pollsCreated: true,
+      pollsParticipated: true,
       polls: {
+        select: {
+          id: true,
+          title: true,
+          status: true,
+          createdAt: true
+        },
         orderBy: { createdAt: "desc" },
-        take: 10
+        take: 3
       },
       votes: {
+        select: {
+          id: true,
+          createdAt: true,
+          poll: {
+            select: {
+              id: true,
+              title: true,
+              status: true
+            }
+          }
+        },
         orderBy: { createdAt: "desc" },
-        take: 20
+        take: 3
       }
     }
   });
