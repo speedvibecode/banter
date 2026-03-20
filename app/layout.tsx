@@ -52,7 +52,6 @@ export default async function RootLayout({
               ) : null}
               <AuthButtons
                 isAuthenticated={Boolean(session?.user)}
-                userId={session?.user?.id}
                 username={session?.user?.name}
               />
             </nav>

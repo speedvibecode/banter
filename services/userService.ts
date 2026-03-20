@@ -33,9 +33,9 @@ export async function findOrCreateUser(identity: IdentityInput) {
   });
 }
 
-export async function getUser(userId: string) {
+export async function getUserByUsername(username: string) {
   return prisma.user.findUnique({
-    where: { id: userId },
+    where: { username },
     select: {
       id: true,
       username: true,

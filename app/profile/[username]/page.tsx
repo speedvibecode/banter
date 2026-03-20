@@ -2,19 +2,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getProfileColor, getReputationCategory } from "@/lib/profile";
-import { getUser } from "@/services/userService";
+import { getUserByUsername } from "@/services/userService";
 
 export const dynamic = "force-dynamic";
 
 type ProfilePageProps = {
   params: {
-    id: string;
+    username: string;
   };
 };
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
-  const { id } = params;
-  const user = await getUser(id);
+  const user = await getUserByUsername(decodeURIComponent(params.username));
 
   if (!user) {
     notFound();
@@ -34,11 +33,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           />
           <div className="flex-1">
             <h1 className="text-3xl font-bold text-white">{user.username}</h1>
-            <div className="mt-6 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-                <p className="text-sm text-zinc-400">User ID</p>
-                <p className="mt-2 break-all text-sm text-white">{user.id}</p>
-              </div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
                 <p className="text-sm text-zinc-400">Name</p>
                 <p className="mt-2 text-lg font-semibold text-white">{user.username}</p>

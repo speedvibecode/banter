@@ -5,11 +5,10 @@ import { signOut } from "next-auth/react";
 
 type AuthButtonsProps = {
   isAuthenticated: boolean;
-  userId?: string | null;
   username?: string | null;
 };
 
-export function AuthButtons({ isAuthenticated, userId, username }: AuthButtonsProps) {
+export function AuthButtons({ isAuthenticated, username }: AuthButtonsProps) {
   if (!isAuthenticated) {
     return (
       <div className="flex flex-wrap items-center gap-2">
@@ -31,9 +30,9 @@ export function AuthButtons({ isAuthenticated, userId, username }: AuthButtonsPr
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {userId ? (
+      {username ? (
         <Link
-          href={`/profile/${userId}`}
+          href={`/profile/${encodeURIComponent(username)}`}
           className="text-sm text-zinc-400 transition hover:text-white"
         >
           {username}
