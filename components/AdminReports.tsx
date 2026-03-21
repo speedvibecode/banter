@@ -65,39 +65,36 @@ export function AdminReports({ reports: initialReports }: AdminReportsProps) {
 
   return (
     <div className="space-y-4">
-      {status ? <p className="text-sm text-zinc-400">{status}</p> : null}
+      {status ? (
+        <p className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">{status}</p>
+      ) : null}
       {reports.map((report) => (
-        <div
-          key={report.id}
-          className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5"
-        >
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
-                {report.reason.replaceAll("_", " ")}
-              </p>
-              <h3 className="mt-2 text-lg font-semibold text-white">
+        <div key={report.id} className="shell-panel grid gap-5 p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="space-y-3">
+              <span className="neon-chip status-purple">{report.reason.replaceAll("_", " ")}</span>
+              <h3 className="font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.04em] text-white">
                 {report.poll.title}
               </h3>
-              <p className="mt-2 text-sm text-zinc-400">
-                Creator: {report.poll.creator.username} • Reporter: {report.reporter.username}
-              </p>
-              <p className="mt-1 text-sm text-zinc-500">
-                Report status: {report.status} • Poll status: {report.poll.status}
-              </p>
+              <div className="grid gap-1 text-sm uppercase tracking-[0.14em] text-[color:var(--muted)]">
+                <p>Creator: {report.poll.creator.username}</p>
+                <p>Reporter: {report.reporter.username}</p>
+                <p>Report status: {report.status}</p>
+                <p>Poll status: {report.poll.status}</p>
+              </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-3">
               <button
                 type="button"
                 onClick={() => handleAction(report.id, "ignore")}
-                className="rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
+                className="ghost-cta"
               >
                 Ignore
               </button>
               <button
                 type="button"
                 onClick={() => handleAction(report.id, "remove")}
-                className="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white"
+                className="secondary-cta"
               >
                 Mark Removed
               </button>

@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MessageSquareText, Plus } from "lucide-react";
+import { Inter, Space_Grotesk } from "next/font/google";
+import { Bolt, Search, ShieldCheck } from "lucide-react";
 
 import "@/app/globals.css";
 import { AuthButtons } from "@/components/AuthButtons";
+import { SiteNavigation } from "@/components/SiteNavigation";
 import { auth, isAdminEmail } from "@/lib/auth";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter"
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space"
+});
 
 export const metadata: Metadata = {
   title: "Banter",
@@ -20,43 +32,52 @@ export default async function RootLayout({
   const isAdmin = isAdminEmail(session?.user?.email);
 
   return (
-    <html lang="en">
-      <body className="text-zinc-50 antialiased">
-        <div className="mx-auto min-h-screen max-w-6xl px-4 py-6 sm:px-6">
-          <header className="mb-8 flex flex-col gap-4 rounded-2xl border border-zinc-800/80 bg-zinc-950/80 px-4 py-3 backdrop-blur md:flex-row md:items-center md:justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="rounded-xl bg-blue-500/15 p-2 text-blue-400">
-                <MessageSquareText className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-lg font-bold tracking-tight">Banter</p>
-                <p className="text-sm text-zinc-400">Where arguments end.</p>
-              </div>
-            </Link>
-            <nav className="flex w-full flex-wrap items-center gap-2 md:w-auto md:justify-end">
-              <Link
-                href="/create"
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-600"
-              >
-                <Plus className="h-4 w-4" />
-                Create Poll
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <body className="font-[var(--font-inter)] text-zinc-50 antialiased">
+        <div className="mx-auto min-h-screen max-w-[1540px] px-4 pb-28 pt-4 sm:px-6 lg:px-8 lg:pb-10 lg:pt-6">
+          <header className="shell-panel mb-6 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-center justify-between gap-4">
+              <Link href="/" className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center bg-[color:var(--primary)]/10 text-[color:var(--primary)] neon-shadow-green">
+                  <Bolt className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-[var(--font-space)] text-2xl font-bold uppercase tracking-[0.18em] text-[color:var(--primary)]">
+                    Banter
+                  </p>
+                  <p className="text-xs uppercase tracking-[0.34em] text-[color:var(--muted)]">
+                    Kinetic judgment engine
+                  </p>
+                </div>
               </Link>
-              {/* Keep moderation discoverable only for admins and enforce the same rule server-side elsewhere. */}
+
               {isAdmin ? (
-                <Link
-                  href="/admin/moderation"
-                  className="rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-200 transition hover:border-zinc-500"
-                >
-                  Moderation
-                </Link>
+                <div className="neon-chip status-purple hidden sm:inline-flex">
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  Moderation Enabled
+                </div>
               ) : null}
+            </div>
+
+            <div className="flex flex-1 flex-col gap-4 lg:max-w-3xl lg:flex-row lg:items-center lg:justify-end">
+              <div className="grid-panel flex items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
+                <Search className="h-4 w-4" />
+                <span className="truncate uppercase tracking-[0.22em]">
+                  Live arguments. decisive outcomes.
+                </span>
+              </div>
+
               <AuthButtons
                 isAuthenticated={Boolean(session?.user)}
                 username={session?.user?.name}
               />
-            </nav>
+            </div>
           </header>
-          {children}
+
+          <div className="grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)]">
+            <SiteNavigation isAdmin={isAdmin} username={session?.user?.name} />
+            <div className="min-w-0">{children}</div>
+          </div>
         </div>
       </body>
     </html>

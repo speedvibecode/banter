@@ -16,16 +16,17 @@ export default async function ModerationPage() {
   const reports = await listReports();
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6">
-      <div>
-        <p className="text-sm uppercase tracking-[0.25em] text-orange-400">
-          Moderation
+    <main className="space-y-6">
+      <section className="shell-panel grid gap-5 px-6 py-8 sm:px-8">
+        <p className="kicker">Moderation relay</p>
+        <h1 className="font-[var(--font-space)] text-5xl font-bold uppercase leading-[0.94] tracking-[-0.06em] text-white sm:text-6xl">
+          Reported polls
+        </h1>
+        <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)]">
+          Review abuse signals, ignore low-quality noise, and keep the current moderation workflow
+          intact.
         </p>
-        <h1 className="mt-2 text-3xl font-bold">Reported polls</h1>
-        <p className="mt-3 text-zinc-400">
-          Review reports, ignore noise, and mark abusive polls as removed.
-        </p>
-      </div>
+      </section>
       <AdminReports
         reports={reports.map((report) => ({
           id: report.id,

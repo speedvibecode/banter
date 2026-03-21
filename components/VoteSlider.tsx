@@ -55,59 +55,72 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-5 rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5"
-    >
-      <div className="space-y-3">
-        <div className="flex items-center justify-between text-sm text-zinc-300">
-          <span>{optionA}</span>
-          <span className="font-semibold text-blue-400">{aPoints}</span>
+    <form onSubmit={handleSubmit} className="shell-panel grid gap-6 p-6 sm:p-8">
+      <div className="grid gap-6">
+        <div className="bg-surface-low p-5">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="kicker">Vector 01</p>
+              <p className="mt-2 text-lg font-semibold uppercase tracking-[0.08em] text-white">
+                {optionA}
+              </p>
+            </div>
+            <span className="font-[var(--font-space)] text-4xl font-bold text-[color:var(--primary)]">
+              {aPoints}
+            </span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max={MAX_VOTE_POINTS}
+            value={aPoints}
+            onChange={(event) => updateA(Number(event.target.value))}
+            className="mt-5 h-2 w-full cursor-pointer accent-[color:var(--primary)]"
+          />
         </div>
-        <input
-          type="range"
-          min="0"
-          max={MAX_VOTE_POINTS}
-          value={aPoints}
-          onChange={(event) => updateA(Number(event.target.value))}
-          className="h-3 w-full cursor-pointer accent-blue-500"
-        />
-      </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center justify-between text-sm text-zinc-300">
-          <span>{optionB}</span>
-          <span className="font-semibold text-orange-400">{bPoints}</span>
+        <div className="bg-surface-low p-5">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="kicker">Vector 02</p>
+              <p className="mt-2 text-lg font-semibold uppercase tracking-[0.08em] text-white">
+                {optionB}
+              </p>
+            </div>
+            <span className="font-[var(--font-space)] text-4xl font-bold text-[color:var(--secondary)]">
+              {bPoints}
+            </span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max={MAX_VOTE_POINTS}
+            value={bPoints}
+            onChange={(event) => updateB(Number(event.target.value))}
+            className="mt-5 h-2 w-full cursor-pointer accent-[color:var(--secondary)]"
+          />
         </div>
-        <input
-          type="range"
-          min="0"
-          max={MAX_VOTE_POINTS}
-          value={bPoints}
-          onChange={(event) => updateB(Number(event.target.value))}
-          className="h-3 w-full cursor-pointer accent-orange-500"
-        />
       </div>
 
-      <div className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3">
-        <span className="text-sm text-zinc-300">Points remaining</span>
-        <span
-          className={`text-lg font-bold ${
-            remaining === 0 ? "text-green-400" : "text-zinc-100"
-          }`}
-        >
-          {remaining}
-        </span>
+      <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+        <div className="section-panel px-5 py-5">
+          <p className="muted-kicker">Points remaining</p>
+          <p
+            className={`mt-3 font-[var(--font-space)] text-5xl font-bold ${
+              remaining === 0 ? "text-[color:var(--primary)]" : "text-white"
+            }`}
+          >
+            {remaining}
+          </p>
+        </div>
+        <button type="submit" className="primary-cta min-w-[220px]">
+          Submit Vote
+        </button>
       </div>
 
-      <button
-        type="submit"
-        className="w-full rounded-lg bg-blue-500 px-4 py-3 font-semibold text-white transition hover:bg-blue-600"
-      >
-        Submit Vote
-      </button>
-
-      {status ? <p className="text-sm text-zinc-400">{status}</p> : null}
+      {status ? (
+        <p className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">{status}</p>
+      ) : null}
     </form>
   );
 }

@@ -41,52 +41,57 @@ export function ReportModal({ pollId }: ReportModalProps) {
 
   if (!open) {
     return (
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 transition hover:border-zinc-500"
-      >
+      <button type="button" onClick={() => setOpen(true)} className="ghost-cta">
         Report Poll
       </button>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/95 p-5">
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Report this poll</h3>
-        <button
-          type="button"
-          onClick={() => setOpen(false)}
-          className="text-sm text-zinc-400"
-        >
+    <div className="shell-panel grid gap-5 p-6">
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <p className="kicker">Moderation relay</p>
+          <h3 className="mt-2 font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.04em] text-white">
+            Report this poll
+          </h3>
+        </div>
+        <button type="button" onClick={() => setOpen(false)} className="ghost-cta px-4 py-2 text-xs">
           Close
         </button>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <select
-          name="reason"
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
-        >
-          {REPORT_REASONS.map((reason) => (
-            <option key={reason} value={reason}>
-              {reason.replaceAll("_", " ")}
-            </option>
-          ))}
-        </select>
-        <textarea
-          name="notes"
-          rows={3}
-          placeholder="Extra context"
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
-        />
-        <button
-          type="submit"
-          className="rounded-lg bg-orange-500 px-4 py-2 font-semibold text-white transition hover:bg-orange-600"
-        >
-          Submit report
-        </button>
-        {status ? <p className="text-sm text-zinc-400">{status}</p> : null}
+      <form onSubmit={handleSubmit} className="grid gap-5">
+        <label className="space-y-2">
+          <span className="kicker">Reason</span>
+          <select name="reason" className="terminal-field appearance-none">
+            {REPORT_REASONS.map((reason) => (
+              <option key={reason} value={reason}>
+                {reason.replaceAll("_", " ")}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="space-y-2">
+          <span className="kicker">Extra context</span>
+          <textarea
+            name="notes"
+            rows={4}
+            placeholder="Add evidence for moderators"
+            className="terminal-field resize-none"
+          />
+        </label>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          {status ? (
+            <p className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">{status}</p>
+          ) : (
+            <span className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">
+              Report flow unchanged
+            </span>
+          )}
+          <button type="submit" className="secondary-cta min-w-[200px]">
+            Submit Report
+          </button>
+        </div>
       </form>
     </div>
   );

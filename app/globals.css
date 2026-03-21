@@ -4,24 +4,245 @@
 
 :root {
   color-scheme: dark;
+  --background: #070809;
+  --surface: #0e1012;
+  --surface-low: #14171a;
+  --surface-high: #1a1d21;
+  --surface-raise: rgba(25, 28, 33, 0.82);
+  --text: #f3f5f7;
+  --muted: #95a0ac;
+  --primary: #6dfe9c;
+  --primary-deep: #16b364;
+  --secondary: #c180ff;
+  --secondary-deep: #8b3dff;
+  --ghost-border: rgba(255, 255, 255, 0.08);
 }
 
-body {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(59, 130, 246, 0.14), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.12), transparent 28%),
-    #09090b;
-  color: #fafafa;
+@layer base {
+  * {
+    border-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top left, rgba(193, 128, 255, 0.16), transparent 22%),
+      radial-gradient(circle at top right, rgba(109, 254, 156, 0.12), transparent 26%),
+      radial-gradient(circle at bottom, rgba(109, 254, 156, 0.08), transparent 28%),
+      linear-gradient(180deg, #050607 0%, #090b0d 42%, #050607 100%);
+    color: var(--text);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    border-radius: 0;
+  }
+
+  input,
+  select,
+  textarea {
+    color: var(--text);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: rgba(149, 160, 172, 0.7);
+  }
+
+  ::selection {
+    background: rgba(109, 254, 156, 0.22);
+    color: white;
+  }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer components {
+  .shell-panel {
+    background: var(--surface-raise);
+    backdrop-filter: blur(24px);
+    box-shadow: 0 0 0 1px var(--ghost-border), 0 24px 80px rgba(0, 0, 0, 0.45);
+  }
+
+  .section-panel {
+    background: rgba(26, 29, 33, 0.9);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 18px 50px rgba(0, 0, 0, 0.24);
+  }
+
+  .grid-panel {
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(26, 29, 33, 0.92), rgba(15, 17, 20, 0.95));
+    background-size: 22px 22px, 22px 22px, 100% 100%;
+  }
+
+  .kicker {
+    color: var(--primary);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+  }
+
+  .muted-kicker {
+    color: var(--muted);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  .panel-title {
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .terminal-field {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 1rem 0 0.75rem;
+    font-size: 0.875rem;
+    transition: box-shadow 150ms ease, border-color 150ms ease, background-color 150ms ease;
+    box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .terminal-field:focus {
+    outline: none;
+    box-shadow: inset 0 -2px 0 var(--primary);
+  }
+
+  .primary-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    color: #072411;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    transition: transform 150ms ease, filter 150ms ease;
+    background: linear-gradient(135deg, var(--primary) 0%, #4cd67d 100%);
+    box-shadow: 0 0 0 1px rgba(109, 254, 156, 0.12), 0 16px 40px rgba(109, 254, 156, 0.18);
+  }
+
+  .primary-cta:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+  }
+
+  .secondary-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    transition: background-color 150ms ease, transform 150ms ease;
+    background: rgba(193, 128, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(193, 128, 255, 0.28);
+  }
+
+  .secondary-cta:hover {
+    background: rgba(193, 128, 255, 0.16);
+  }
+
+  .ghost-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    transition: background-color 150ms ease, color 150ms ease;
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  .ghost-cta:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .neon-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  .status-green {
+    background: rgba(109, 254, 156, 0.1);
+    color: var(--primary);
+    box-shadow: inset 0 0 0 1px rgba(109, 254, 156, 0.2);
+  }
+
+  .status-purple {
+    background: rgba(193, 128, 255, 0.1);
+    color: var(--secondary);
+    box-shadow: inset 0 0 0 1px rgba(193, 128, 255, 0.2);
+  }
+
+  .data-value {
+    color: white;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
 }
 
-input,
-select,
-textarea {
-  color: #fafafa;
+@layer utilities {
+  .text-muted {
+    color: var(--muted);
+  }
+
+  .bg-surface {
+    background-color: var(--surface);
+  }
+
+  .bg-surface-low {
+    background-color: var(--surface-low);
+  }
+
+  .bg-surface-high {
+    background-color: var(--surface-high);
+  }
+
+  .neon-shadow-green {
+    box-shadow: 0 0 0 1px rgba(109, 254, 156, 0.16), 0 20px 45px rgba(109, 254, 156, 0.08);
+  }
+
+  .neon-shadow-purple {
+    box-shadow: 0 0 0 1px rgba(193, 128, 255, 0.18), 0 20px 45px rgba(193, 128, 255, 0.08);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
 }

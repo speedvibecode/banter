@@ -52,44 +52,30 @@ export function SignupForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-5 rounded-2xl border border-zinc-800 bg-zinc-900/90 p-6"
-    >
-      <label className="block space-y-2">
-        <span className="text-sm text-zinc-300">Username</span>
-        <input
-          name="username"
-          required
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 focus:border-blue-500 focus:outline-none"
-        />
-      </label>
-      <label className="block space-y-2">
-        <span className="text-sm text-zinc-300">Email</span>
-        <input
-          name="email"
-          type="email"
-          required
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 focus:border-blue-500 focus:outline-none"
-        />
-      </label>
-      <label className="block space-y-2">
-        <span className="text-sm text-zinc-300">Password</span>
-        <input
-          name="password"
-          type="password"
-          minLength={8}
-          required
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 focus:border-blue-500 focus:outline-none"
-        />
-      </label>
-      <button
-        type="submit"
-        className="w-full rounded-lg bg-blue-500 px-4 py-3 font-semibold text-white transition hover:bg-blue-600"
-      >
-        Create Account
-      </button>
-      {status ? <p className="text-sm text-zinc-400">{status}</p> : null}
+    <form onSubmit={handleSubmit} className="shell-panel grid gap-6 p-6 sm:p-8">
+      <div className="grid gap-5">
+        <label className="block space-y-2">
+          <span className="kicker">Username</span>
+          <input name="username" required className="terminal-field" />
+        </label>
+        <label className="block space-y-2">
+          <span className="kicker">Email</span>
+          <input name="email" type="email" required className="terminal-field" />
+        </label>
+        <label className="block space-y-2">
+          <span className="kicker">Password</span>
+          <input name="password" type="password" minLength={8} required className="terminal-field" />
+        </label>
+      </div>
+
+      <div className="grid gap-4">
+        <button type="submit" className="primary-cta w-full">
+          Create Account
+        </button>
+        {status ? (
+          <p className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">{status}</p>
+        ) : null}
+      </div>
     </form>
   );
 }

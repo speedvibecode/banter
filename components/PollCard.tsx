@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Flame } from "lucide-react";
+import { ArrowRight, Flame, Trophy } from "lucide-react";
 
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { VoteBar } from "@/components/VoteBar";
@@ -12,48 +12,86 @@ type PollCardProps = {
 
 export function PollCard({ poll }: PollCardProps) {
   const split = calculateSplit(poll.totalA, poll.totalB);
+  const href = poll.status === "CLOSED" ? `/result/${poll.id}` : `/poll/${poll.id}`;
 
   return (
     <Link
-      href={poll.status === "CLOSED" ? `/result/${poll.id}` : `/poll/${poll.id}`}
-      className="group block rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-zinc-700 hover:shadow-glow"
+      href={href}
+      className="group block bg-[color:var(--surface-high)]/92 p-5 transition hover:bg-[color:var(--surface-high)]"
+      style={{
+        boxShadow:
+          "inset 0 0 0 1px rgba(255,255,255,0.04), 0 20px 60px rgba(0,0,0,0.24)"
+      }}
     >
-      <div className="mb-4 flex items-start justify-between gap-3">
-        <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
-            {poll.category}
-          </p>
-          <h3 className="text-xl font-bold tracking-tight text-white">{poll.title}</h3>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="neon-chip status-purple">{poll.category}</span>
+            {poll.status === "ACTIVE" ? (
+              <span className="neon-chip status-green">
+                <Flame className="h-3.5 w-3.5" />
+                Live
+              </span>
+            ) : (
+              <span className="neon-chip status-green">
+                <Trophy className="h-3.5 w-3.5" />
+                Verdict
+              </span>
+            )}
+          </div>
+          <h3 className="max-w-3xl font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.05em] text-white sm:text-[2rem]">
+            {poll.title}
+          </h3>
         </div>
-        {poll.status === "ACTIVE" ? (
-          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
-            <Flame className="h-3.5 w-3.5 text-orange-400" />
-            Live
-          </span>
-        ) : null}
+
+        <div className="section-panel min-w-[144px] px-4 py-3 text-right">
+          <p className="muted-kicker">{poll.status === "ACTIVE" ? "Live count" : "Final count"}</p>
+          <p className="mt-2 font-[var(--font-space)] text-3xl font-bold text-[color:var(--primary)]">
+            {poll.voteCount}
+          </p>
+          <p className="mt-1 text-[0.62rem] uppercase tracking-[0.24em] text-[color:var(--muted)]">
+            votes
+          </p>
+        </div>
       </div>
 
-      <div className="space-y-3">
-        <div className="flex justify-between text-sm font-medium text-zinc-200">
-          <span>{poll.optionA}</span>
-          <span>{poll.optionB}</span>
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <div className="bg-surface-low px-4 py-4">
+          <p className="muted-kicker">Option A</p>
+          <p className="mt-2 text-base font-semibold uppercase tracking-[0.08em] text-white">
+            {poll.optionA}
+          </p>
+        </div>
+        <div className="bg-surface-low px-4 py-4">
+          <p className="muted-kicker">Option B</p>
+          <p className="mt-2 text-base font-semibold uppercase tracking-[0.08em] text-white">
+            {poll.optionB}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-6 space-y-3">
+        <div className="flex justify-between text-[0.68rem] font-semibold uppercase tracking-[0.24em]">
+          <span className="text-[color:var(--primary)]">{split.aPercent}%</span>
+          <span className="text-[color:var(--secondary)]">{split.bPercent}%</span>
         </div>
         <VoteBar aPercent={split.aPercent} bPercent={split.bPercent} />
-        <div className="flex justify-between text-sm text-zinc-400">
-          <span>
-            A {split.aPercent}% / B {split.bPercent}%
-          </span>
-          <span>{poll.voteCount} votes</span>
-        </div>
       </div>
 
-      <div className="mt-4 flex items-center justify-between border-t border-zinc-800 pt-4 text-sm">
-        <span className="text-zinc-400">
-          by {poll.creator.username} • Rep {poll.creator.reputation}
-        </span>
-        <div className="flex items-center gap-3 text-zinc-300">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 bg-black/20 px-4 py-4 text-sm">
+        <div className="space-y-1">
+          <p className="text-[0.62rem] uppercase tracking-[0.28em] text-[color:var(--muted)]">
+            Signal author
+          </p>
+          <p className="font-semibold uppercase tracking-[0.08em] text-white">
+            {poll.creator.username}
+            <span className="ml-2 text-[color:var(--muted)]">Rep {poll.creator.reputation}</span>
+          </p>
+        </div>
+
+        <div className="flex items-center gap-4">
           <CountdownTimer endTime={poll.endTime} />
-          <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+          <ArrowRight className="h-4 w-4 text-[color:var(--muted)] transition group-hover:translate-x-1 group-hover:text-white" />
         </div>
       </div>
     </Link>

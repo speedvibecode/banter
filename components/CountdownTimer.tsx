@@ -8,7 +8,11 @@ export function CountdownTimer({ endTime }: CountdownTimerProps) {
   const time = getTimeRemaining(new Date(endTime));
 
   return (
-    <span className={time.isClosingSoon ? "text-orange-400" : "text-zinc-400"}>
+    <span
+      className={`text-xs font-semibold uppercase tracking-[0.26em] ${
+        time.isClosingSoon ? "text-[color:var(--secondary)]" : "text-[color:var(--muted)]"
+      }`}
+    >
       {time.label}
     </span>
   );
