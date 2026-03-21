@@ -1,48 +1,82 @@
-# Banter MVP
+# Banter
 
-Banter is a Next.js MVP for binary argument polls with conviction voting, deterministic poll resolution, reputation updates, and moderation reports.
+Banter is a Next.js application for binary argument polls. Users can create polls, allocate 100 points across two outcomes, see live and resolved results, build reputation from correct convictions, report abusive polls, and moderate reported content through an admin dashboard.
 
-## Setup
+## Stack
 
-1. Copy `.env.example` to `.env`.
-2. Install dependencies with `npm install`.
-3. Run `npx prisma migrate dev`.
-4. Start the app with `npm run dev`.
-5. Optionally seed demo content with `npm run seed`.
+- Next.js 14 App Router
+- TypeScript
+- Tailwind CSS
+- Prisma
+- NextAuth credentials auth
+- Neon Postgres
+- Vercel
 
-## Required local software
+## Current Product Surface
 
-- Node.js 18.18+ or 20+
-- npm
-- PostgreSQL, or a hosted Postgres database such as Neon
+- Home feed with active polls and recent verdicts
+- Poll creation flow at `/create`
+- Poll detail and voting flow at `/poll/[id]`
+- Result page at `/result/[id]`
+- User profile page at `/profile/[username]`
+- Report submission flow on poll pages
+- Admin moderation page at `/admin/moderation`
 
-## Auth setup
+## Environment Variables
 
-- `NEXTAUTH_SECRET` is required.
-- `NEXTAUTH_URL` should be `http://localhost:3000` for local dev.
-- `ADMIN_EMAILS` is a comma-separated list of emails allowed to access moderation.
+Required runtime variables:
 
-## Neon setup
+- `DATABASE_URL`
+- `DATABASE_URL_UNPOOLED`
+- `NEXTAUTH_SECRET`
+- `NEXTAUTH_URL`
+- `ADMIN_EMAILS`
 
-- Set `DATABASE_URL` to the Neon pooled connection string for app runtime.
-- Set `DATABASE_URL_UNPOOLED` to the non-pooled Neon connection string for Prisma migrations.
-- For local development, run `npx prisma migrate dev`.
-- For production or preview deployments, run `npx prisma migrate deploy`.
-- If your host supports a custom build command, use `npm run build:deploy` so migrations are applied before `next build`.
+Notes:
 
-## Demo account
+- `DATABASE_URL` should use the pooled Neon connection string.
+- `DATABASE_URL_UNPOOLED` should use the direct Neon connection string for Prisma direct access.
+- Both database URLs should point to the same Neon branch.
 
-- Email: `demo@banter.app`
-- Password: `banterdemo123`
+## Development
 
-This account is created when you run `npm run seed`.
+```bash
+npm install
+npm run dev
+```
 
-## Included MVP slices
+If you need to generate Prisma client manually:
 
-- Poll creation
-- Vote submission with 100-point allocation
-- Feed and poll pages
-- Result pages and poll resolution worker
-- Profile page
-- Report flow and moderation dashboard
-- Credentials auth with signup and login
+```bash
+npm run prisma:generate
+```
+
+## Production Build and Deploy
+
+The Vercel build command is defined in [vercel.json](/C:/Users/USER/OneDrive/Desktop/projects/banter%20copy/banter/vercel.json):
+
+```json
+{
+  "buildCommand": "npm run build:deploy"
+}
+```
+
+`build:deploy` runs:
+
+1. `prisma generate`
+2. `node scripts/prepareMigrations.js`
+3. `prisma migrate deploy`
+4. `next build`
+
+This means Vercel deploys can execute migration-related Prisma steps before building. Keep that behavior in mind before adding new migrations or migration-prep scripts.
+
+## Deployment Status
+
+The app is currently deployed on Vercel and uses Neon Postgres in production.
+
+## Repo Guidance
+
+- Keep business logic in `services/`
+- Keep DB access out of UI components
+- Use existing API routes and service functions before adding new ones
+- Treat docs as current-state references, not planning scratchpads

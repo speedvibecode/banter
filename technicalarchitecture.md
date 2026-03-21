@@ -1,625 +1,117 @@
-# BANTER — Technical Architecture & Database Specification (MVP → Scalable)
+# Technical Architecture
 
-## Purpose
+## Overview
 
-This document defines the **complete technical foundation** for the Banter platform so that GitHub Copilot / AI coding agents can build the system consistently.
+Banter is a monolithic Next.js application with server-rendered pages, route handlers, a Prisma-backed service layer, and a Neon Postgres database. The current design is intentionally simple: one deployable app, one primary database, and route-level business flows built around poll creation, voting, result resolution, reputation updates, reporting, and moderation.
 
-It includes:
+## Runtime Flow
 
-• full tech stack
-• system architecture
-• database schema
-• API contracts
-• background jobs
-• scaling path
+High-level request path:
 
-The design supports:
+1. App Router page or client component initiates an action
+2. Route handler validates input and calls the relevant service
+3. Service layer performs business logic and Prisma operations
+4. The page re-renders or routes the user to the next state
 
-1. **Fast MVP development**
-2. **Easy scaling later**
+## Main Application Areas
 
-The initial build should remain **simple**, but the architecture must not block future expansion.
+- `app/page.tsx`: home feed
+- `app/create/page.tsx`: authenticated poll creation
+- `app/poll/[id]/page.tsx`: poll detail and voting
+- `app/result/[id]/page.tsx`: resolved poll result
+- `app/profile/[username]/page.tsx`: profile and activity history
+- `app/admin/moderation/page.tsx`: admin review workflow
 
----
+## Business Logic Layers
 
-# 1. High-Level Architecture
+### UI Layer
 
-The MVP architecture follows a **monolithic full‑stack design** using Next.js.
+Shared UI lives in `components/`. These components should present data and handle interaction wiring, but not contain database logic.
 
-Client (Next.js React)
-↓
-API Routes
-↓
-Service Layer
-↓
-Database (Postgres)
+### Route Layer
 
-Optional:
+API handlers live in `app/api/`. They are the public server entry points for create, vote, report, auth, moderation, and feed queries.
 
-Cron Worker → Poll resolution
+### Service Layer
 
-Later scaling introduces:
+Core behavior lives in `services/`:
 
-Queue
-Realtime engine
-Event pipeline
+- `pollService.ts`
+- `voteService.ts`
+- `reportService.ts`
+- `userService.ts`
 
----
+This is the right place for business rules, Prisma reads and writes, and cross-entity updates.
 
-# 2. Ultimate Tech Stack
+### Library Layer
 
-## Frontend
+Shared utilities live in `lib/`, including:
 
-Framework:
+- auth helpers
+- poll calculation logic
+- reputation logic
+- Prisma client bootstrap
+- logging
 
-Next.js 14 (App Router)
+## Data Model
 
-Language:
+The current Prisma schema centers on four entities:
 
-TypeScript
+- `User`
+- `Poll`
+- `Vote`
+- `Report`
 
-Styling:
+Current functional relationships:
 
-TailwindCSS
+- a user creates many polls
+- a user votes on many polls
+- a poll collects many votes
+- a poll can be reported by many users
+- a report belongs to one poll and one reporter
 
-Icons:
+## Poll Lifecycle
 
-Lucide Icons
+1. Authenticated user creates a poll
+2. Poll is stored with `ACTIVE` status and an `endTime`
+3. Authenticated users submit one vote per poll with a 100-point allocation across options A and B
+4. Poll totals update as votes arrive
+5. When a poll has expired, resolution logic determines the winner
+6. User reputation updates according to the existing exposure logic
+7. Poll moves to `CLOSED`
 
-State:
+## Moderation Lifecycle
 
-React state (MVP)
+1. Authenticated user reports a poll
+2. Report is stored with a moderation status
+3. Admin visits `/admin/moderation`
+4. Admin can ignore a report or mark the related poll removed
 
-Future:
+## Auth
 
-Zustand
+The app currently uses NextAuth credentials auth. Session checks are enforced where needed for protected product flows such as poll creation, voting, and moderation access.
 
----
+## Database and Deploy
 
-## Backend
+- Database: Neon Postgres
+- ORM: Prisma
+- Hosting: Vercel
 
-Runtime:
+Deploys currently use `npm run build:deploy`, which includes Prisma migration steps before `next build`. Treat migration changes as deployment-sensitive.
 
-Next.js Server Functions
+## Current Constraints
 
-Language:
+- No realtime transport
+- No queue system
+- No external worker service
+- No dedicated rate-limiting layer yet
+- No separate backend service
 
-TypeScript
+Those are product and infrastructure decisions to revisit deliberately, not things to add casually.
 
-Validation:
+## Engineering Guidance
 
-Zod
-
-ORM:
-
-Prisma
-
----
-
-## Database
-
-Primary DB:
-
-PostgreSQL
-
-Hosting options:
-
-Supabase
-Neon
-Railway
-
-Recommended MVP:
-
-Neon Postgres
-
----
-
-## Authentication
-
-Options:
-
-NextAuth
-Supabase Auth
-
-Recommended:
-
-NextAuth + Email login
-
-Future:
-
-Phone verification
-
----
-
-## Hosting
-
-Frontend + API
-
-Vercel
-
-Database
-
-Neon
-
----
-
-## Observability
-
-Logging
-
-Pino
-
-Error Tracking
-
-Sentry
-
-Analytics
-
-PostHog
-
----
-
-# 3. Repository Structure
-
-```
-/app
-
-/app/feed
-/app/poll/[id]
-/app/result/[id]
-/app/create
-/app/profile
-
-/components
-PollCard
-VoteSlider
-ResultCard
-VoteBar
-CountdownTimer
-
-/lib
-prisma.ts
-pollLogic.ts
-reputation.ts
-resolvePolls.ts
-
-/services
-pollService.ts
-voteService.ts
-userService.ts
-
-/api
-createPoll
-vote
-resolvePoll
-feed
-
-/prisma
-schema.prisma
-
-/docs
-PRD
-UI
-DesignSystem
-TechDoc
-```
-
----
-
-# 4. Core Database Schema
-
-## Users Table
-
-```
-User
-
-id UUID PK
-username TEXT UNIQUE
-email TEXT UNIQUE
-password_hash TEXT
-
-reputation INT DEFAULT 0
-
-polls_participated INT DEFAULT 0
-polls_created INT DEFAULT 0
-
-created_at TIMESTAMP
-```
-
-Indexes
-
-email
-username
-
----
-
-## Poll Table
-
-```
-Poll
-
-id UUID PK
-
-creator_id UUID FK
-
-category TEXT
-
-title TEXT
-
-description TEXT
-
-option_a TEXT
-option_b TEXT
-
-start_time TIMESTAMP
-end_time TIMESTAMP
-
-status TEXT
-
-(total voting totals)
-
-total_a INT DEFAULT 0
-total_b INT DEFAULT 0
-
-vote_count INT DEFAULT 0
-
-winner TEXT
-
-created_at TIMESTAMP
-```
-
-Indexes
-
-status
-end_time
-creator_id
-
----
-
-## Vote Table
-
-```
-Vote
-
-id UUID PK
-
-user_id UUID FK
-poll_id UUID FK
-
-A_points INT
-B_points INT
-
-exposure INT
-
-created_at TIMESTAMP
-```
-
-Constraints
-
-```
-A_points >= 0
-B_points >= 0
-A_points + B_points <= 100
-```
-
-Indexes
-
-poll_id
-user_id
-
-Unique constraint
-
-(user_id, poll_id)
-
-User can vote only once per poll.
-
----
-
-## Category Table (Optional MVP)
-
-```
-Category
-
-id UUID
-
-name TEXT
-
-slug TEXT
-```
-
-Examples
-
-sports
-relationships
-technology
-workplace
-
----
-
-# 5. Reputation Logic
-
-Exposure calculation
-
-```
-exposure = A_points - B_points
-```
-
-Reputation change
-
-If A wins
-
-```
-rep += exposure
-```
-
-If B wins
-
-```
-rep -= exposure
-```
-
-Future extension
-
-Time decay multiplier
-
----
-
-# 6. API Endpoints
-
-## Create Poll
-
-POST
-
-```
-/api/polls/create
-```
-
-Request
-
-```
-title
-optionA
-optionB
-duration
-category
-```
-
-Response
-
-```
-pollId
-```
-
----
-
-## Vote
-
-POST
-
-```
-/api/polls/vote
-```
-
-Request
-
-```
-pollId
-A_points
-B_points
-```
-
-Server tasks
-
-Validate constraints
-
-Store vote
-
-Update poll totals
-
----
-
-## Feed
-
-GET
-
-```
-/api/feed
-```
-
-Returns
-
-```
-active polls
-recent polls
-```
-
----
-
-## Poll Details
-
-GET
-
-```
-/api/poll/[id]
-```
-
-Returns
-
-Poll info
-Totals
-Time remaining
-
----
-
-# 7. Poll Resolution Worker
-
-A background worker runs every minute.
-
-Logic
-
-```
-find polls where
-status = ACTIVE
-end_time < now()
-
-resolve winner
-
-update poll
-
-update user reputations
-
-mark poll CLOSED
-```
-
----
-
-# 8. Poll Resolution Algorithm (MVP)
-
-```
-if total_a > total_b
-winner = A
-
-if total_b > total_a
-winner = B
-
-if tie
-winner = random
-```
-
----
-
-# 9. Feed Query Logic
-
-Active feed
-
-```
-status = ACTIVE
-order by created_at desc
-```
-
-Recent feed
-
-```
-status = CLOSED
-order by end_time desc
-```
-
-Future ranking
-
-Vote velocity
-Engagement
-
----
-
-# 10. Security Rules
-
-Validate votes server side
-
-Prevent duplicate votes
-
-Rate limit API
-
-Phone verification (future)
-
----
-
-# 11. Scaling Path
-
-When traffic grows introduce:
-
-Realtime
-
-WebSockets
-
-Queue
-
-Kafka / Redis Streams
-
-Vote Workers
-
-Poll Sharding
-
-Event sourcing
-
----
-
-# 12. Realtime Upgrade (Phase 2)
-
-Replace polling with:
-
-WebSocket
-
-Live vote updates
-
-Sentiment graphs
-
----
-
-# 13. Anti‑Bot Layer (Phase 2)
-
-Signals
-
-Voting speed
-Device fingerprint
-IP clustering
-
----
-
-# 14. Analytics
-
-Track
-
-polls_created
-votes_per_poll
-retention
-share_rate
-
----
-
-# 15. Performance Targets
-
-MVP
-
-<200ms API response
-
-<1s page load
-
----
-
-# 16. Developer Rules
-
-All logic goes through services
-
-No database calls directly in UI
-
-Use types everywhere
-
-Use Zod validation
-
----
-
-# 17. Future Infrastructure
-
-When scaling to millions
-
-Add
-
-Kafka vote ingestion
-
-Worker clusters
-
-Realtime vote engine
-
-Sentiment time series
-
----
-
-# 18. Final System Principle
-
-The system must always guarantee:
-
-Every poll produces a **deterministic verdict**.
-
-The platform is not a poll system.
-
-It is a **social arbitration engine**.
+- Reuse existing service functions before adding new ones
+- Avoid direct Prisma access in UI code
+- Keep route handlers thin
+- Keep docs aligned to the shipped system, not speculative future phases
