@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:deploy": "prisma generate && node scripts/prepareMigrations.js && prisma migrate deploy && next build",
+    "deploy:db": "prisma generate && node scripts/prepareMigrations.js && prisma migrate deploy",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",

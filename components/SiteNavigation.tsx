@@ -41,10 +41,21 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
       ? [{ href: "/admin/moderation", label: "Moderation", icon: ShieldAlert }]
       : [])
   ];
+  const mobileLinks = [
+    { href: "/", label: "Home", icon: Home, match: "/" },
+    { href: "/create", label: "Create", icon: PlusSquare },
+    ...(isAdmin ? [{ href: "/admin/moderation", label: "Review", icon: TimerReset }] : []),
+    {
+      href: username ? `/profile/${encodeURIComponent(username)}` : "/login",
+      label: "Profile",
+      icon: UserCircle2,
+      match: "/profile"
+    }
+  ];
 
   return (
     <>
-      <aside className="shell-panel hidden min-h-[calc(100vh-8rem)] w-full max-w-[248px] flex-col justify-between p-4 lg:flex">
+      <aside className="shell-panel sticky top-28 hidden max-h-[calc(100vh-8rem)] w-full max-w-[248px] self-start overflow-y-auto p-4 lg:flex lg:flex-col lg:justify-between">
         <nav className="space-y-2">
           {links.map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(link.match ?? `${link.href}/`);
@@ -75,11 +86,11 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
               <span className="text-[color:var(--primary)]">Active</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Market Pulse</span>
+              <span>Active Arguments</span>
               <span className="text-white">Realtime</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Reputation Loop</span>
+              <span>Resolved Arguments</span>
               <span className="text-[color:var(--secondary)]">Synced</span>
             </div>
           </div>
@@ -89,20 +100,12 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
         </div>
       </aside>
 
-      <nav className="shell-panel fixed inset-x-4 bottom-4 z-50 grid grid-cols-4 gap-2 p-2 lg:hidden">
-        {[
-          { href: "/", label: "Home", icon: Home, match: "/" },
-          { href: "/create", label: "Create", icon: PlusSquare },
-          { href: "/admin/moderation", label: "Review", icon: TimerReset, hidden: !isAdmin },
-          {
-            href: username ? `/profile/${encodeURIComponent(username)}` : "/login",
-            label: "Profile",
-            icon: UserCircle2,
-            match: "/profile"
-          }
-        ]
-          .filter((link) => !link.hidden)
-          .map((link) => {
+      <nav
+        className={`shell-panel fixed inset-x-4 bottom-4 z-50 grid gap-2 p-2 lg:hidden ${
+          mobileLinks.length === 4 ? "grid-cols-4" : "grid-cols-3"
+        }`}
+      >
+        {mobileLinks.map((link) => {
             const isActive =
               pathname === link.href ||
               (link.match && pathname.startsWith(link.match) && link.match !== "/");

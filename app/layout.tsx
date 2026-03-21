@@ -35,7 +35,7 @@ export default async function RootLayout({
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-[var(--font-inter)] text-zinc-50 antialiased">
         <div className="mx-auto min-h-screen max-w-[1540px] px-4 pb-28 pt-4 sm:px-6 lg:px-8 lg:pb-10 lg:pt-6">
-          <header className="shell-panel mb-6 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+          <header className="shell-panel sticky top-4 z-40 mb-6 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-4">
               <Link href="/" className="flex items-center gap-3">
                 <div className="flex h-11 w-11 items-center justify-center bg-[color:var(--primary)]/10 text-[color:var(--primary)] neon-shadow-green">
@@ -74,7 +74,7 @@ export default async function RootLayout({
             </div>
           </header>
 
-          <div className="grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)]">
+          <div className="grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] lg:items-start">
             <SiteNavigation isAdmin={isAdmin} username={session?.user?.name} />
             <div className="min-w-0">{children}</div>
           </div>

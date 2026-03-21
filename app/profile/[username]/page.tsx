@@ -24,7 +24,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   return (
     <main className="space-y-6">
-      <section className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)_300px]">
+      <section className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
         <div className="shell-panel p-6">
           <div className={`h-56 w-full ${profileColor}`} aria-hidden="true" />
           <div className="mt-6">
@@ -130,16 +130,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
             </div>
           </div>
         </div>
-
-        <aside className="grid gap-4">
-          <div className="section-panel p-5">
-            <p className="kicker">Node profile</p>
-            <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
-              Profile color remains derived from the same deterministic utility. This is only a
-              visual refresh around the existing user data.
-            </p>
-          </div>
-        </aside>
       </section>
     </main>
   );

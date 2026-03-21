@@ -1,11 +1,7 @@
 export const MAX_VOTE_POINTS = 100;
-
-export const POLL_DURATIONS = [
-  { label: "5 minutes", minutes: 5 },
-  { label: "30 minutes", minutes: 30 },
-  { label: "2 hours", minutes: 120 },
-  { label: "24 hours", minutes: 1440 }
-] as const;
+export const MAX_POLL_DURATION_MINUTES = 24 * 60;
+export const DEFAULT_POLL_DURATION_MINUTES = 60;
+export const FEED_PAGE_SIZE = 30;
 
 export const REPORT_REASONS = [
   "SPAM",

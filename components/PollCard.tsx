@@ -39,12 +39,12 @@ export function PollCard({ poll }: PollCardProps) {
               </span>
             )}
           </div>
-          <h3 className="max-w-3xl font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.05em] text-white sm:text-[2rem]">
+          <h3 className="max-w-3xl font-[var(--font-space)] text-xl font-bold uppercase tracking-[-0.05em] text-white sm:text-[2rem]">
             {poll.title}
           </h3>
         </div>
 
-        <div className="section-panel min-w-[144px] px-4 py-3 text-right">
+        <div className="section-panel w-full px-4 py-3 text-right sm:w-auto sm:min-w-[144px]">
           <p className="muted-kicker">{poll.status === "ACTIVE" ? "Live count" : "Final count"}</p>
           <p className="mt-2 font-[var(--font-space)] text-3xl font-bold text-[color:var(--primary)]">
             {poll.voteCount}

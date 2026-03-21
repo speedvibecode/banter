@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ReportModal } from "@/components/ReportModal";
+import { CountdownTimer } from "@/components/CountdownTimer";
 import { VoteBar } from "@/components/VoteBar";
 import { VoteSlider } from "@/components/VoteSlider";
 import { auth } from "@/lib/auth";
@@ -43,8 +44,7 @@ export default async function PollPage({ params }: PollPageProps) {
             {poll.title}
           </h1>
           <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)]">
-            This poll has already resolved. The route logic is unchanged and now redirects users
-            toward the existing result page.
+            The poll has already resolved.
           </p>
           <div>
             <Link href={`/result/${poll.id}`} className="primary-cta">
@@ -65,6 +65,9 @@ export default async function PollPage({ params }: PollPageProps) {
           <div className="flex flex-wrap items-center gap-3">
             <span className="neon-chip status-purple">{poll.category}</span>
             <span className="neon-chip status-green">Active poll</span>
+            <span className="neon-chip status-purple">
+              Time left <CountdownTimer endTime={poll.endTime} />
+            </span>
           </div>
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_220px]">
             <div>

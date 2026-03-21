@@ -57,18 +57,34 @@ The Vercel build command is defined in [vercel.json](/C:/Users/USER/OneDrive/Des
 
 ```json
 {
-  "buildCommand": "npm run build:deploy"
+  "buildCommand": "npm run build"
 }
 ```
 
-`build:deploy` runs:
+Vercel production builds now run the application build only:
+
+1. `next build`
+
+Database changes are handled as a separate operational step through:
+
+1. `prisma generate`
+2. `node scripts/prepareMigrations.js`
+3. `prisma migrate deploy`
+
+That flow is available through:
+
+```bash
+npm run deploy:db
+```
+
+The legacy combined command remains available as:
 
 1. `prisma generate`
 2. `node scripts/prepareMigrations.js`
 3. `prisma migrate deploy`
 4. `next build`
 
-This means Vercel deploys can execute migration-related Prisma steps before building. Keep that behavior in mind before adding new migrations or migration-prep scripts.
+Keep database changes explicit. A failed DB connection should not block a frontend deploy unless you intentionally run the migration workflow.
 
 ## Deployment Status
 

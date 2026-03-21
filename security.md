@@ -34,11 +34,11 @@ Production uses Neon Postgres. Treat Neon branch selection and connection string
 
 ### Prisma Migrations
 
-Production deploys run `prisma migrate deploy` as part of the Vercel build command. Any new migration added to the repo should be reviewed as a production change, not just a code change.
+Production app deploys no longer run `prisma migrate deploy` as part of the Vercel build. Database migration execution is a separate operational step and should be reviewed as a production change, not just a code change.
 
 ### Migration Prep Script
 
-The repo includes `scripts/prepareMigrations.js`, which runs before `prisma migrate deploy` in production builds. That means deploys can include pre-migration data cleanup behavior if this script is changed. Treat edits to that file as high-risk operational changes.
+The repo includes `scripts/prepareMigrations.js`, which runs before `prisma migrate deploy` when the explicit database deployment command is used. That means DB rollouts can include pre-migration data cleanup behavior if this script is changed. Treat edits to that file as high-risk operational changes.
 
 ## Secrets and Environment Variables
 
@@ -82,3 +82,4 @@ Before shipping anything that touches auth, moderation, votes, or database behav
 3. Review affected routes and services
 4. Confirm Vercel environment variables
 5. Confirm Neon target branch and migration state if database behavior is involved
+6. Run the explicit database deployment command when shipping schema changes

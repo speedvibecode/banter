@@ -97,7 +97,7 @@ The app currently uses NextAuth credentials auth. Session checks are enforced wh
 - ORM: Prisma
 - Hosting: Vercel
 
-Deploys currently use `npm run build:deploy`, which includes Prisma migration steps before `next build`. Treat migration changes as deployment-sensitive.
+Deploys currently use `npm run build` on Vercel. Database migration work is intentionally separated into an explicit operational command, `npm run deploy:db`. Treat migration changes as deployment-sensitive even though they are no longer coupled to every app build.
 
 ## Current Constraints
 

@@ -1,5 +1,6 @@
 import type { Prisma } from "@prisma/client";
 
+import { FEED_PAGE_SIZE } from "@/lib/constants";
 import { logger } from "@/lib/logger";
 import { determineWinner } from "@/lib/pollLogic";
 import { prisma } from "@/lib/prisma";
@@ -123,7 +124,7 @@ export async function listActivePolls(): Promise<PollCardData[]> {
       status: "ACTIVE"
     },
     orderBy: { createdAt: "desc" },
-    take: 20
+    take: FEED_PAGE_SIZE
   });
 
   return polls.map(mapPollCard);
@@ -156,7 +157,7 @@ export async function listRecentPolls(): Promise<PollCardData[]> {
       status: "CLOSED"
     },
     orderBy: { closedAt: "desc" },
-    take: 20
+    take: FEED_PAGE_SIZE
   });
 
   return polls.map(mapPollCard);

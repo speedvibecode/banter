@@ -35,10 +35,6 @@ export default async function ResultPage({ params }: ResultPageProps) {
         <h1 className="font-[var(--font-space)] text-5xl font-bold uppercase leading-[0.94] tracking-[-0.06em] text-white sm:text-6xl">
           Final verdict
         </h1>
-        <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)]">
-          This screen still resolves expired polls through the same service call before rendering
-          the result state.
-        </p>
       </section>
 
       <ResultCard

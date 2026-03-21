@@ -28,6 +28,16 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
     setAPoints(cappedA);
   }
 
+  function parsePoints(value: string) {
+    const parsed = Number(value);
+
+    if (Number.isNaN(parsed)) {
+      return 0;
+    }
+
+    return Math.max(0, Math.min(MAX_VOTE_POINTS, parsed));
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("Submitting vote...");
@@ -69,6 +79,20 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
               {aPoints}
             </span>
           </div>
+          <div className="mt-4">
+            <label className="space-y-2">
+              <span className="muted-kicker">Type points</span>
+              <input
+                type="number"
+                min="0"
+                max={MAX_VOTE_POINTS}
+                inputMode="numeric"
+                value={aPoints}
+                onChange={(event) => updateA(parsePoints(event.target.value))}
+                className="terminal-field text-base font-medium"
+              />
+            </label>
+          </div>
           <input
             type="range"
             min="0"
@@ -90,6 +114,20 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
             <span className="font-[var(--font-space)] text-4xl font-bold text-[color:var(--secondary)]">
               {bPoints}
             </span>
+          </div>
+          <div className="mt-4">
+            <label className="space-y-2">
+              <span className="muted-kicker">Type points</span>
+              <input
+                type="number"
+                min="0"
+                max={MAX_VOTE_POINTS}
+                inputMode="numeric"
+                value={bPoints}
+                onChange={(event) => updateB(parsePoints(event.target.value))}
+                className="terminal-field text-base font-medium"
+              />
+            </label>
           </div>
           <input
             type="range"

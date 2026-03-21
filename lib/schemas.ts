@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { MAX_VOTE_POINTS, POLL_DURATIONS, REPORT_REASONS } from "@/lib/constants";
+import {
+  MAX_POLL_DURATION_MINUTES,
+  MAX_VOTE_POINTS,
+  REPORT_REASONS
+} from "@/lib/constants";
 
 export const identitySchema = z.object({
   username: z.string().trim().min(2).max(30),
@@ -16,10 +20,8 @@ export const createPollSchema = z.object({
   durationMinutes: z
     .number()
     .int()
-    .refine(
-      (value) => POLL_DURATIONS.some((duration) => duration.minutes === value),
-      "Invalid duration"
-    )
+    .min(1, "Duration must be at least 1 minute.")
+    .max(MAX_POLL_DURATION_MINUTES, "Duration cannot exceed 24 hours.")
 });
 
 export const voteSchema = z

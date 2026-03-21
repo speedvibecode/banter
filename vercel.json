@@ -1,3 +1,3 @@
 {
-  "buildCommand": "npm run build:deploy"
+  "buildCommand": "npm run build"
 }
