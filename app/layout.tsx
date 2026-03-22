@@ -41,7 +41,7 @@ export default async function RootLayout({
           }}
         />
         <div className="mx-auto flex h-dvh max-w-[1540px] flex-col overflow-hidden px-4 pt-4 sm:px-6 lg:px-8 lg:pt-6">
-          <header className="shell-panel z-40 mb-5 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+          <header className="shell-panel sticky top-0 z-40 mb-5 shrink-0 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-4">
               <Link href="/" className="flex items-center gap-3">
                 <div className="flex h-11 w-11 items-center justify-center bg-[color:var(--primary)]/10 text-[color:var(--primary)] neon-shadow-green">
@@ -86,10 +86,10 @@ export default async function RootLayout({
             {session?.user ? (
               <div className="grid h-full gap-5 lg:grid-cols-[248px_minmax(0,1fr)]">
                 <SiteNavigation isAdmin={isAdmin} username={session.user.name} />
-                <div className="viewport-scroll-right min-h-0">{children}</div>
+                <div className="viewport-scroll-right min-h-0 overflow-y-auto">{children}</div>
               </div>
             ) : (
-              <div className="viewport-scroll-right h-full">{children}</div>
+              <div className="viewport-scroll-right h-full overflow-y-auto">{children}</div>
             )}
           </div>
         </div>
