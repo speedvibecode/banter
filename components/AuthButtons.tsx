@@ -1,16 +1,37 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { ArrowRight, LogOut } from "lucide-react";
 
 type AuthButtonsProps = {
+  compactUnauthenticated?: boolean;
   isAuthenticated: boolean;
   username?: string | null;
 };
 
-export function AuthButtons({ isAuthenticated, username }: AuthButtonsProps) {
+export function AuthButtons({
+  compactUnauthenticated = false,
+  isAuthenticated,
+  username
+}: AuthButtonsProps) {
+  const pathname = usePathname();
+
   if (!isAuthenticated) {
+    if (compactUnauthenticated) {
+      const isLoginPage = pathname === "/login";
+      const href = isLoginPage ? "/signup" : "/login";
+      const label = isLoginPage ? "Sign Up" : "Login";
+      const className = isLoginPage ? "secondary-cta px-4 py-2.5 text-xs" : "ghost-cta px-4 py-2.5 text-xs";
+
+      return (
+        <Link href={href} className={className}>
+          {label}
+        </Link>
+      );
+    }
+
     return (
       <div className="flex flex-wrap items-center gap-2">
         <Link href="/login" className="ghost-cta px-4 py-2.5 text-xs">
