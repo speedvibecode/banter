@@ -33,7 +33,7 @@ export function ResultCard({
             <Trophy className="h-3.5 w-3.5" />
             Final Result
           </span>
-          <h1 className="max-w-4xl font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.06em] text-white sm:text-5xl">
+          <h1 className="max-w-4xl font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.06em] text-[color:var(--text)] sm:text-5xl">
             {title}
           </h1>
         </div>
@@ -63,14 +63,14 @@ export function ResultCard({
       <div className="grid gap-4 md:grid-cols-2">
         <div className="section-panel px-5 py-5">
           <p className="kicker">Option A</p>
-          <p className="mt-3 text-3xl font-bold text-white">{split.aPercent}%</p>
+          <p className="mt-3 text-3xl font-bold text-[color:var(--text)]">{split.aPercent}%</p>
           <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
             {optionA}
           </p>
         </div>
         <div className="section-panel px-5 py-5">
           <p className="kicker">Option B</p>
-          <p className="mt-3 text-3xl font-bold text-white">{split.bPercent}%</p>
+          <p className="mt-3 text-3xl font-bold text-[color:var(--text)]">{split.bPercent}%</p>
           <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
             {optionB}
           </p>

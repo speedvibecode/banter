@@ -55,7 +55,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
 
   return (
     <>
-      <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] w-full max-w-[248px] self-start overflow-y-auto border border-white/6 bg-[rgba(14,16,18,0.88)] p-4 backdrop-blur-xl lg:flex lg:flex-col lg:justify-between">
+      <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] w-full max-w-[248px] self-start overflow-y-auto border border-subtle bg-[color:var(--surface-raise)] p-4 backdrop-blur-xl lg:flex lg:flex-col lg:justify-between">
         <nav className="space-y-2">
           {links.map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(link.match ?? `${link.href}/`);
@@ -68,7 +68,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
                 className={`flex items-center gap-3 px-4 py-3 text-xs font-semibold uppercase tracking-[0.26em] transition ${
                   isActive
                     ? "bg-[color:var(--surface-high)] text-[color:var(--primary)] neon-shadow-green"
-                    : "text-[color:var(--muted)] hover:bg-white/[0.04] hover:text-white"
+                    : "text-[color:var(--muted)] hover:bg-[color:var(--ghost-bg)] hover:text-[color:var(--text)]"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -87,7 +87,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
             </div>
             <div className="flex items-center justify-between">
               <span>Fresh polls</span>
-              <span className="text-white">Rolling</span>
+              <span className="text-[color:var(--text)]">Rolling</span>
             </div>
             <div className="flex items-center justify-between">
               <span>Recent results</span>

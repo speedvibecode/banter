@@ -52,7 +52,7 @@ export function ReportModal({ pollId }: ReportModalProps) {
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="kicker">Moderation relay</p>
-          <h3 className="mt-2 font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.04em] text-white">
+          <h3 className="mt-2 font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.04em] text-[color:var(--text)]">
             Report this poll
           </h3>
         </div>

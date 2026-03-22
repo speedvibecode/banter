@@ -27,7 +27,7 @@ function FeedSection({ emptyMessage, heading, kicker, polls, statusLabel }: Feed
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="kicker">{kicker}</p>
-          <h2 className="mt-2 font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.05em] text-white sm:text-3xl">
+          <h2 className="mt-2 font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.05em] text-[color:var(--text)] sm:text-3xl">
             {heading}
           </h2>
         </div>
@@ -67,7 +67,7 @@ export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
           className={`flex-1 px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] ${
             mobileView === "active"
               ? "bg-[color:var(--surface-high)] text-[color:var(--primary)]"
-              : "bg-white/[0.04] text-[color:var(--muted)]"
+              : "bg-[color:var(--ghost-bg)] text-[color:var(--muted)]"
           }`}
         >
           Open
@@ -78,7 +78,7 @@ export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
           className={`flex-1 px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] ${
             mobileView === "recent"
               ? "bg-[color:var(--surface-high)] text-[color:var(--primary)]"
-              : "bg-white/[0.04] text-[color:var(--muted)]"
+              : "bg-[color:var(--ghost-bg)] text-[color:var(--muted)]"
           }`}
         >
           Closed

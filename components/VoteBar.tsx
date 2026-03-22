@@ -7,7 +7,7 @@ type VoteBarProps = {
 export function VoteBar({ aPercent, bPercent, className = "" }: VoteBarProps) {
   return (
     <div
-      className={`flex h-2 overflow-hidden bg-white/[0.08] ${className}`.trim()}
+      className={`flex h-2 overflow-hidden bg-[color:var(--ghost-bg)] ${className}`.trim()}
       aria-label={`Option A ${aPercent}% and Option B ${bPercent}%`}
     >
       <div

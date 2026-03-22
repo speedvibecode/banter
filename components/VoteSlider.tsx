@@ -70,8 +70,8 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
         <div className="bg-surface-low p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="kicker">Vector 01</p>
-              <p className="mt-2 text-lg font-semibold uppercase tracking-[0.08em] text-white">
+              <p className="kicker">Option A</p>
+              <p className="mt-2 text-lg font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
                 {optionA}
               </p>
             </div>
@@ -106,8 +106,8 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
         <div className="bg-surface-low p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="kicker">Vector 02</p>
-              <p className="mt-2 text-lg font-semibold uppercase tracking-[0.08em] text-white">
+              <p className="kicker">Option B</p>
+              <p className="mt-2 text-lg font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
                 {optionB}
               </p>
             </div>
@@ -145,7 +145,7 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
           <p className="muted-kicker">Points remaining</p>
           <p
             className={`mt-3 font-[var(--font-space)] text-5xl font-bold ${
-              remaining === 0 ? "text-[color:var(--primary)]" : "text-white"
+              remaining === 0 ? "text-[color:var(--primary)]" : "text-[color:var(--text)]"
             }`}
           >
             {remaining}

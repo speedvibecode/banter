@@ -73,7 +73,7 @@ export function AdminReports({ reports: initialReports }: AdminReportsProps) {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="space-y-3">
               <span className="neon-chip status-purple">{report.reason.replaceAll("_", " ")}</span>
-              <h3 className="font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.04em] text-white">
+              <h3 className="font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.04em] text-[color:var(--text)]">
                 {report.poll.title}
               </h3>
               <div className="grid gap-1 text-sm uppercase tracking-[0.14em] text-[color:var(--muted)]">

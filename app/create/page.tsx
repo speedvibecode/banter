@@ -17,7 +17,7 @@ export default async function CreatePage() {
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px] xl:items-start">
         <div className="shell-panel grid gap-4 px-6 py-8 sm:px-8">
           <p className="kicker">Create Poll</p>
-          <h1 className="max-w-3xl font-[var(--font-space)] text-4xl font-bold uppercase leading-[0.94] tracking-[-0.06em] text-white sm:text-6xl">
+          <h1 className="max-w-3xl font-[var(--font-space)] text-4xl font-bold uppercase leading-[0.94] tracking-[-0.06em] text-[color:var(--text)] sm:text-6xl">
             Post a new poll.
           </h1>
           <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)]">

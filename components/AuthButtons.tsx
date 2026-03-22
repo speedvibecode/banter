@@ -28,14 +28,14 @@ export function AuthButtons({ isAuthenticated, username }: AuthButtonsProps) {
       {username ? (
         <Link
           href={`/profile/${encodeURIComponent(username)}`}
-          className="group flex items-center gap-3 bg-white/[0.04] px-3 py-2 text-sm text-white transition hover:bg-white/[0.07]"
+          className="group flex items-center gap-3 bg-[color:var(--ghost-bg)] px-3 py-2 text-sm text-[color:var(--text)] transition hover:bg-[color:var(--ghost-hover)]"
         >
           <span className="flex h-9 w-9 items-center justify-center bg-[color:var(--primary)]/10 text-xs font-bold uppercase text-[color:var(--primary)]">
             {username.slice(0, 2)}
           </span>
           <span className="space-y-0.5">
             <span className="block text-[0.62rem] uppercase tracking-[0.28em] text-[color:var(--muted)]">
-              Active Node
+              Active account
             </span>
             <span className="flex items-center gap-2 font-semibold uppercase tracking-[0.12em]">
               {username}

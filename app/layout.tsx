@@ -6,6 +6,7 @@ import { Bolt, Search, ShieldCheck } from "lucide-react";
 import "@/app/globals.css";
 import { AuthButtons } from "@/components/AuthButtons";
 import { SiteNavigation } from "@/components/SiteNavigation";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { auth, isAdminEmail } from "@/lib/auth";
 
 const inter = Inter({
@@ -32,8 +33,13 @@ export default async function RootLayout({
   const isAdmin = isAdminEmail(session?.user?.email);
 
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="font-[var(--font-inter)] text-zinc-50 antialiased">
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
+      <body className="font-[var(--font-inter)] antialiased">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("banter-theme");document.documentElement.dataset.theme=t||"light";}catch(e){document.documentElement.dataset.theme="light";}`
+          }}
+        />
         <div className="mx-auto min-h-screen max-w-[1540px] px-4 pb-28 pt-4 sm:px-6 lg:px-8 lg:pb-10 lg:pt-6">
           <header className="shell-panel sticky top-4 z-40 mb-6 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-4">
@@ -60,6 +66,7 @@ export default async function RootLayout({
             </div>
 
             <div className="flex flex-1 flex-col gap-4 lg:max-w-3xl lg:flex-row lg:items-center lg:justify-end">
+              <ThemeSwitcher />
               <div className="grid-panel flex items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
                 <Search className="h-4 w-4" />
                 <span className="truncate uppercase tracking-[0.16em]">

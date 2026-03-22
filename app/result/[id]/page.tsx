@@ -32,7 +32,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
     <main className="space-y-6">
       <section className="shell-panel grid gap-5 px-6 py-8 sm:px-8">
         <p className="kicker">Poll result</p>
-        <h1 className="font-[var(--font-space)] text-5xl font-bold uppercase leading-[0.94] tracking-[-0.06em] text-white sm:text-6xl">
+        <h1 className="font-[var(--font-space)] text-5xl font-bold uppercase leading-[0.94] tracking-[-0.06em] text-[color:var(--text)] sm:text-6xl">
           Final result
         </h1>
       </section>

@@ -3,19 +3,102 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
+  --background: #f2eadf;
+  --surface: #f7f1e7;
+  --surface-low: #efe5d6;
+  --surface-high: #fff8ee;
+  --surface-raise: rgba(255, 249, 239, 0.94);
+  --surface-overlay: rgba(32, 41, 54, 0.06);
+  --surface-overlay-hover: rgba(32, 41, 54, 0.1);
+  --text: #1f232a;
+  --muted: #6d7682;
+  --primary: #e07b33;
+  --primary-deep: #b85f20;
+  --primary-ink: #fff8f2;
+  --secondary: #2b69c8;
+  --secondary-deep: #1c4d97;
+  --ghost-border: rgba(31, 35, 42, 0.12);
+  --ghost-bg: rgba(31, 35, 42, 0.05);
+  --ghost-hover: rgba(31, 35, 42, 0.09);
+  --input-bg: rgba(255, 255, 255, 0.66);
+  --input-border: rgba(31, 35, 42, 0.1);
+  --selection: rgba(224, 123, 51, 0.22);
+  --grid-line: rgba(31, 35, 42, 0.05);
+  --grid-from: rgba(255, 251, 245, 0.94);
+  --grid-to: rgba(243, 234, 223, 0.98);
+  --page-accent-a: rgba(43, 105, 200, 0.14);
+  --page-accent-b: rgba(224, 123, 51, 0.14);
+  --page-accent-c: rgba(43, 105, 200, 0.08);
+  --page-bg-start: #fbf6ee;
+  --page-bg-mid: #f3eadf;
+  --page-bg-end: #ede3d6;
+}
+
+html[data-theme="graphite"] {
   color-scheme: dark;
   --background: #070809;
   --surface: #0e1012;
   --surface-low: #14171a;
   --surface-high: #1a1d21;
   --surface-raise: rgba(18, 21, 24, 0.94);
+  --surface-overlay: rgba(0, 0, 0, 0.2);
+  --surface-overlay-hover: rgba(255, 255, 255, 0.04);
   --text: #f3f5f7;
   --muted: #95a0ac;
   --primary: #6dfe9c;
   --primary-deep: #16b364;
+  --primary-ink: #072411;
   --secondary: #c180ff;
   --secondary-deep: #8b3dff;
   --ghost-border: rgba(255, 255, 255, 0.08);
+  --ghost-bg: rgba(255, 255, 255, 0.04);
+  --ghost-hover: rgba(255, 255, 255, 0.07);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --input-border: rgba(255, 255, 255, 0.06);
+  --selection: rgba(109, 254, 156, 0.22);
+  --grid-line: rgba(255, 255, 255, 0.03);
+  --grid-from: rgba(26, 29, 33, 0.92);
+  --grid-to: rgba(15, 17, 20, 0.95);
+  --page-accent-a: rgba(193, 128, 255, 0.1);
+  --page-accent-b: rgba(109, 254, 156, 0.08);
+  --page-accent-c: rgba(109, 254, 156, 0.05);
+  --page-bg-start: #060708;
+  --page-bg-mid: #0a0c0f;
+  --page-bg-end: #070809;
+}
+
+html[data-theme="navy"] {
+  color-scheme: dark;
+  --background: #08111f;
+  --surface: #0d1730;
+  --surface-low: #13203a;
+  --surface-high: #1a2945;
+  --surface-raise: rgba(11, 21, 39, 0.95);
+  --surface-overlay: rgba(5, 10, 24, 0.24);
+  --surface-overlay-hover: rgba(255, 255, 255, 0.05);
+  --text: #f5efdc;
+  --muted: #98a7bd;
+  --primary: #f0c84a;
+  --primary-deep: #c89d1a;
+  --primary-ink: #221807;
+  --secondary: #d95555;
+  --secondary-deep: #a52e2e;
+  --ghost-border: rgba(255, 255, 255, 0.08);
+  --ghost-bg: rgba(255, 255, 255, 0.04);
+  --ghost-hover: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --input-border: rgba(255, 255, 255, 0.06);
+  --selection: rgba(240, 200, 74, 0.22);
+  --grid-line: rgba(255, 255, 255, 0.03);
+  --grid-from: rgba(23, 35, 61, 0.94);
+  --grid-to: rgba(11, 18, 34, 0.98);
+  --page-accent-a: rgba(217, 85, 85, 0.12);
+  --page-accent-b: rgba(240, 200, 74, 0.08);
+  --page-accent-c: rgba(240, 200, 74, 0.05);
+  --page-bg-start: #07111f;
+  --page-bg-mid: #0a1630;
+  --page-bg-end: #09111f;
 }
 
 @layer base {
@@ -30,9 +113,10 @@
   body {
     min-height: 100vh;
     background:
-      radial-gradient(circle at top left, rgba(193, 128, 255, 0.1), transparent 24%),
-      radial-gradient(circle at top right, rgba(109, 254, 156, 0.08), transparent 28%),
-      linear-gradient(180deg, #060708 0%, #0a0c0f 48%, #070809 100%);
+      radial-gradient(circle at top left, var(--page-accent-a), transparent 24%),
+      radial-gradient(circle at top right, var(--page-accent-b), transparent 28%),
+      radial-gradient(circle at bottom, var(--page-accent-c), transparent 32%),
+      linear-gradient(180deg, var(--page-bg-start) 0%, var(--page-bg-mid) 48%, var(--page-bg-end) 100%);
     color: var(--text);
   }
 
@@ -60,7 +144,7 @@
   }
 
   ::selection {
-    background: rgba(109, 254, 156, 0.22);
+    background: var(--selection);
     color: white;
   }
 }
@@ -73,15 +157,15 @@
   }
 
   .section-panel {
-    background: rgba(22, 25, 28, 0.95);
+    background: var(--surface-high);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 10px 28px rgba(0, 0, 0, 0.18);
   }
 
   .grid-panel {
     background:
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(180deg, rgba(26, 29, 33, 0.92), rgba(15, 17, 20, 0.95));
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(180deg, var(--grid-from), var(--grid-to));
     background-size: 22px 22px, 22px 22px, 100% 100%;
   }
 
@@ -102,7 +186,7 @@
   }
 
   .panel-title {
-    color: white;
+    color: var(--text);
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -111,8 +195,8 @@
   .terminal-field {
     width: 100%;
     border: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid var(--input-border);
+    background: var(--input-bg);
     padding: 1rem 1rem 0.75rem;
     font-size: 0.875rem;
     transition: box-shadow 150ms ease, border-color 150ms ease, background-color 150ms ease;
@@ -130,14 +214,14 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1.25rem;
-    color: #072411;
+    color: var(--primary-ink);
     font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.26em;
     text-transform: uppercase;
     transition: transform 150ms ease, filter 150ms ease;
-    background: linear-gradient(135deg, var(--primary) 0%, #4cd67d 100%);
-    box-shadow: 0 0 0 1px rgba(109, 254, 156, 0.12), 0 16px 40px rgba(109, 254, 156, 0.18);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.16);
   }
 
   .primary-cta:hover {
@@ -151,18 +235,18 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1.25rem;
-    color: white;
+    color: var(--text);
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     transition: background-color 150ms ease, transform 150ms ease;
-    background: rgba(193, 128, 255, 0.1);
-    box-shadow: inset 0 0 0 1px rgba(193, 128, 255, 0.28);
+    background: color-mix(in srgb, var(--secondary) 14%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--secondary) 36%, transparent);
   }
 
   .secondary-cta:hover {
-    background: rgba(193, 128, 255, 0.16);
+    background: color-mix(in srgb, var(--secondary) 22%, transparent);
   }
 
   .ghost-cta {
@@ -177,13 +261,13 @@
     letter-spacing: 0.24em;
     text-transform: uppercase;
     transition: background-color 150ms ease, color 150ms ease;
-    background: rgba(255, 255, 255, 0.04);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    background: var(--ghost-bg);
+    box-shadow: inset 0 0 0 1px var(--ghost-border);
   }
 
   .ghost-cta:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.07);
+    color: var(--text);
+    background: var(--ghost-hover);
   }
 
   .neon-chip {
@@ -198,19 +282,19 @@
   }
 
   .status-green {
-    background: rgba(109, 254, 156, 0.1);
+    background: color-mix(in srgb, var(--primary) 16%, transparent);
     color: var(--primary);
-    box-shadow: inset 0 0 0 1px rgba(109, 254, 156, 0.2);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 28%, transparent);
   }
 
   .status-purple {
-    background: rgba(193, 128, 255, 0.1);
+    background: color-mix(in srgb, var(--secondary) 16%, transparent);
     color: var(--secondary);
-    box-shadow: inset 0 0 0 1px rgba(193, 128, 255, 0.2);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--secondary) 28%, transparent);
   }
 
   .data-value {
-    color: white;
+    color: var(--text);
     font-weight: 700;
     letter-spacing: -0.04em;
   }
@@ -231,6 +315,26 @@
 
   .bg-surface-high {
     background-color: var(--surface-high);
+  }
+
+  .text-theme {
+    color: var(--text);
+  }
+
+  .text-theme-hover:hover {
+    color: var(--text);
+  }
+
+  .bg-overlay {
+    background: var(--surface-overlay);
+  }
+
+  .bg-overlay-hover:hover {
+    background: var(--surface-overlay-hover);
+  }
+
+  .border-subtle {
+    border-color: var(--ghost-border);
   }
 
   .neon-shadow-green {

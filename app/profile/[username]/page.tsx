@@ -30,7 +30,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           <div className={`h-56 w-full ${profileColor}`} aria-hidden="true" />
           <div className="mt-6">
             <p className="kicker">Profile</p>
-            <h1 className="mt-3 font-[var(--font-space)] text-5xl font-bold uppercase tracking-[-0.06em] text-white">
+            <h1 className="mt-3 font-[var(--font-space)] text-5xl font-bold uppercase tracking-[-0.06em] text-[color:var(--text)]">
               {user.username}
             </h1>
             <p className="mt-2 text-sm uppercase tracking-[0.24em] text-[color:var(--secondary)]">
@@ -44,11 +44,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
             </div>
             <div className="bg-surface-low px-4 py-4">
               <p className="muted-kicker">Polls created</p>
-              <p className="mt-2 text-3xl font-bold text-white">{user.pollsCreated}</p>
+              <p className="mt-2 text-3xl font-bold text-[color:var(--text)]">{user.pollsCreated}</p>
             </div>
             <div className="bg-surface-low px-4 py-4">
               <p className="muted-kicker">Polls answered</p>
-              <p className="mt-2 text-3xl font-bold text-white">{user.pollsParticipated}</p>
+              <p className="mt-2 text-3xl font-bold text-[color:var(--text)]">{user.pollsParticipated}</p>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="kicker">Activity</p>
-              <h2 className="mt-2 font-[var(--font-space)] text-3xl font-bold uppercase tracking-[-0.05em] text-white">
+              <h2 className="mt-2 font-[var(--font-space)] text-3xl font-bold uppercase tracking-[-0.05em] text-[color:var(--text)]">
                 Recent history
               </h2>
             </div>
@@ -77,9 +77,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                     <Link
                       key={poll.id}
                       href={poll.status === "CLOSED" ? `/result/${poll.id}` : `/poll/${poll.id}`}
-                      className="block bg-black/20 px-4 py-4 transition hover:bg-white/[0.04]"
+                      className="block bg-[color:var(--surface-overlay)] px-4 py-4 transition hover:bg-[color:var(--surface-overlay-hover)]"
                     >
-                      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-white">
+                      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
                         {poll.title}
                       </p>
                       <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[color:var(--muted)]">
@@ -112,9 +112,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                           ? `/result/${vote.poll.id}`
                           : `/poll/${vote.poll.id}`
                       }
-                      className="block bg-black/20 px-4 py-4 transition hover:bg-white/[0.04]"
+                      className="block bg-[color:var(--surface-overlay)] px-4 py-4 transition hover:bg-[color:var(--surface-overlay-hover)]"
                     >
-                      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-white">
+                      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
                         {vote.poll.title}
                       </p>
                       <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[color:var(--muted)]">

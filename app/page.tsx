@@ -36,7 +36,7 @@ export default async function HomePage() {
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_220px]">
               <div className="space-y-5">
                 <p className="kicker">Social polling</p>
-                <h1 className="font-[var(--font-space)] text-4xl font-bold uppercase leading-[0.92] tracking-[-0.06em] text-white sm:text-6xl xl:text-7xl">
+                <h1 className="font-[var(--font-space)] text-4xl font-bold uppercase leading-[0.92] tracking-[-0.06em] text-[color:var(--text)] sm:text-6xl xl:text-7xl">
                   Post a question. Let people choose a side.
                 </h1>
                 <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)] sm:text-lg">
@@ -102,7 +102,7 @@ export default async function HomePage() {
                 (poll) => (
                   <Link key={poll.id} href={poll.status === "CLOSED" ? `/result/${poll.id}` : `/poll/${poll.id}`} className="block space-y-1">
                     <p className="muted-kicker">{poll.category}</p>
-                    <p className="text-sm font-semibold uppercase tracking-[0.05em] text-white transition hover:text-[color:var(--primary)]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.05em] text-[color:var(--text)] transition hover:text-[color:var(--primary)]">
                       {poll.title}
                     </p>
                   </Link>

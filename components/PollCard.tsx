@@ -39,7 +39,7 @@ export function PollCard({ poll }: PollCardProps) {
               </span>
             )}
           </div>
-          <h3 className="max-w-3xl font-[var(--font-space)] text-xl font-bold uppercase tracking-[-0.05em] text-white sm:text-[2rem]">
+          <h3 className="max-w-3xl font-[var(--font-space)] text-xl font-bold uppercase tracking-[-0.05em] text-[color:var(--text)] sm:text-[2rem]">
             {poll.title}
           </h3>
         </div>
@@ -58,13 +58,13 @@ export function PollCard({ poll }: PollCardProps) {
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         <div className="bg-surface-low px-4 py-4">
           <p className="muted-kicker">Option A</p>
-          <p className="mt-2 text-base font-semibold uppercase tracking-[0.08em] text-white">
+          <p className="mt-2 text-base font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
             {poll.optionA}
           </p>
         </div>
         <div className="bg-surface-low px-4 py-4">
           <p className="muted-kicker">Option B</p>
-          <p className="mt-2 text-base font-semibold uppercase tracking-[0.08em] text-white">
+          <p className="mt-2 text-base font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
             {poll.optionB}
           </p>
         </div>
@@ -78,12 +78,12 @@ export function PollCard({ poll }: PollCardProps) {
         <VoteBar aPercent={split.aPercent} bPercent={split.bPercent} />
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 bg-black/20 px-4 py-4 text-sm">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 bg-[color:var(--surface-overlay)] px-4 py-4 text-sm">
         <div className="space-y-1">
           <p className="text-[0.62rem] uppercase tracking-[0.28em] text-[color:var(--muted)]">
             Posted by
           </p>
-          <p className="font-semibold uppercase tracking-[0.08em] text-white">
+          <p className="font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
             {poll.creator.username}
             <span className="ml-2 text-[color:var(--muted)]">Rep {poll.creator.reputation}</span>
           </p>
@@ -91,7 +91,7 @@ export function PollCard({ poll }: PollCardProps) {
 
         <div className="flex items-center gap-4">
           <CountdownTimer endTime={poll.endTime} />
-          <ArrowRight className="h-4 w-4 text-[color:var(--muted)] transition group-hover:translate-x-1 group-hover:text-white" />
+          <ArrowRight className="h-4 w-4 text-[color:var(--muted)] transition group-hover:translate-x-1 group-hover:text-[color:var(--text)]" />
         </div>
       </div>
     </Link>

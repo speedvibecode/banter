@@ -156,7 +156,7 @@ export function CreatePollForm() {
         </aside>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/5 pt-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-subtle pt-4">
         {status ? (
           <p className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">{status}</p>
         ) : (

@@ -40,7 +40,7 @@ export default async function PollPage({ params }: PollPageProps) {
       <main className="space-y-6">
         <section className="shell-panel grid gap-5 px-6 py-8 sm:px-8">
           <p className="kicker">Poll closed</p>
-          <h1 className="font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.05em] text-white sm:text-5xl">
+          <h1 className="font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.05em] text-[color:var(--text)] sm:text-5xl">
             {poll.title}
           </h1>
           <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)]">
@@ -71,7 +71,7 @@ export default async function PollPage({ params }: PollPageProps) {
           </div>
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_220px]">
             <div>
-              <h1 className="max-w-4xl font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.06em] text-white sm:text-6xl">
+              <h1 className="max-w-4xl font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.06em] text-[color:var(--text)] sm:text-6xl">
                 {poll.title}
               </h1>
               {poll.description ? (
@@ -91,13 +91,13 @@ export default async function PollPage({ params }: PollPageProps) {
           <div className="grid gap-4 md:grid-cols-2">
             <div className="bg-surface-low px-5 py-5">
               <p className="kicker">Option A</p>
-              <p className="mt-3 text-xl font-semibold uppercase tracking-[0.08em] text-white">
+              <p className="mt-3 text-xl font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
                 {poll.optionA}
               </p>
             </div>
             <div className="bg-surface-low px-5 py-5">
               <p className="kicker">Option B</p>
-              <p className="mt-3 text-xl font-semibold uppercase tracking-[0.08em] text-white">
+              <p className="mt-3 text-xl font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
                 {poll.optionB}
               </p>
             </div>
@@ -139,7 +139,7 @@ export default async function PollPage({ params }: PollPageProps) {
       ) : (
         <section className="shell-panel grid gap-4 px-6 py-6 sm:px-8">
           <p className="kicker">Access required</p>
-          <p className="text-lg font-semibold uppercase tracking-[0.08em] text-white">
+          <p className="text-lg font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
             Login to vote
           </p>
           <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)]">
