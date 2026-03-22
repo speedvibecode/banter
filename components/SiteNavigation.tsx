@@ -55,7 +55,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
 
   return (
     <>
-      <aside className="sidebar-fixed hidden w-full max-w-[248px] self-start overflow-y-auto border border-subtle bg-[color:var(--surface-raise)] p-4 backdrop-blur-xl lg:flex lg:flex-col lg:justify-between">
+      <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] w-full max-w-[248px] self-start overflow-y-auto border border-subtle bg-[color:var(--surface-raise)] p-4 backdrop-blur-xl lg:flex lg:flex-col lg:justify-between">
         <nav className="space-y-2">
           {links.map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(link.match ?? `${link.href}/`);

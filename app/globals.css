@@ -349,13 +349,3 @@ html[data-theme="navy"] {
     text-wrap: balance;
   }
 }
-
-@media (min-width: 1024px) {
-  .sidebar-fixed {
-    position: fixed;
-    top: 7.5rem;
-    left: max(2rem, calc((100vw - 1540px) / 2 + 2rem));
-    width: 248px;
-    max-height: calc(100vh - 8.5rem);
-  }
-}
