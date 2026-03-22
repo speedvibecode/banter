@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ResultCard } from "@/components/ResultCard";
+import { auth } from "@/lib/auth";
 import { getPoll, resolvePoll } from "@/services/pollService";
 
 export const dynamic = "force-dynamic";
@@ -13,6 +15,7 @@ type ResultPageProps = {
 
 export default async function ResultPage({ params }: ResultPageProps) {
   const { id } = await params;
+  const session = await auth();
   let poll = await getPoll(id);
 
   if (!poll) {
@@ -45,6 +48,27 @@ export default async function ResultPage({ params }: ResultPageProps) {
         totalB={poll.totalB}
         winner={poll.winner as "A" | "B"}
         voteCount={poll.voteCount}
+        locked={!session?.user}
+        lockOverlay={
+          <>
+            <p className="kicker">Access required</p>
+            <p className="text-lg font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
+              Log in or sign up to continue
+            </p>
+            <p className="text-sm leading-6 text-[color:var(--muted)]">
+              Closed poll results stay locked until you have an account. Shareable result cards
+              will be handled separately later.
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <Link href={`/login?callbackUrl=/result/${poll.id}`} className="primary-cta">
+                Log in
+              </Link>
+              <Link href={`/signup?callbackUrl=/result/${poll.id}`} className="ghost-cta">
+                Sign up
+              </Link>
+            </div>
+          </>
+        }
       />
     </main>
   );
