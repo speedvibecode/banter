@@ -21,12 +21,12 @@ const themeOptions: ThemeOption[] = [
   },
   {
     name: "graphite",
-    label: "Graphite",
+    label: "Dark",
     swatches: ["#070809", "#6dfe9c", "#c180ff"]
   },
   {
     name: "navy",
-    label: "Navy",
+    label: "Midnight",
     swatches: ["#08111f", "#d95555", "#f0c84a"]
   }
 ];
@@ -36,19 +36,25 @@ function applyTheme(theme: ThemeName) {
   localStorage.setItem(STORAGE_KEY, theme);
 }
 
+function getPreferredTheme(): ThemeName {
+  const storedTheme = localStorage.getItem(STORAGE_KEY) as ThemeName | null;
+
+  if (storedTheme && themeOptions.some((option) => option.name === storedTheme)) {
+    return storedTheme;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "graphite" : "light";
+}
+
 export function ThemeSwitcher() {
   const [open, setOpen] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<ThemeName>("light");
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem(STORAGE_KEY) as ThemeName | null;
-    if (storedTheme && themeOptions.some((option) => option.name === storedTheme)) {
-      setSelectedTheme(storedTheme);
-      document.documentElement.dataset.theme = storedTheme;
-    } else {
-      document.documentElement.dataset.theme = "light";
-    }
+    const preferredTheme = getPreferredTheme();
+    setSelectedTheme(preferredTheme);
+    document.documentElement.dataset.theme = preferredTheme;
   }, []);
 
   useEffect(() => {

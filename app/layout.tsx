@@ -37,7 +37,7 @@ export default async function RootLayout({
       <body className="overflow-hidden font-[var(--font-inter)] antialiased">
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("banter-theme");document.documentElement.dataset.theme=t||"light";}catch(e){document.documentElement.dataset.theme="light";}`
+            __html: `try{var t=localStorage.getItem("banter-theme");var d=window.matchMedia("(prefers-color-scheme: dark)").matches?"graphite":"light";document.documentElement.dataset.theme=t||d;}catch(e){document.documentElement.dataset.theme="light";}`
           }}
         />
         <div className="mx-auto flex h-dvh max-w-[1540px] flex-col overflow-hidden px-4 pt-4 sm:px-6 lg:px-8 lg:pt-6">
