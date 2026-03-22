@@ -20,7 +20,7 @@
     "@prisma/client": "^6.6.0",
     "bcryptjs": "^2.4.3",
     "lucide-react": "^0.511.0",
-    "next": "15.5.10",
+    "next": "15.5.14",
     "next-auth": "^4.24.11",
     "pino": "^9.6.0",
     "posthog-js": "^1.234.5",
