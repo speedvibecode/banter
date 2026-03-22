@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { MAX_VOTE_POINTS } from "@/lib/constants";
 
@@ -14,7 +14,20 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
   const [aPoints, setAPoints] = useState(50);
   const [bPoints, setBPoints] = useState(50);
   const [status, setStatus] = useState<string | null>(null);
+  const lastHapticValue = useRef({ a: 50, b: 50 });
   const remaining = MAX_VOTE_POINTS - (aPoints + bPoints);
+
+  function triggerHapticFeedback(key: "a" | "b", next: number) {
+    if (lastHapticValue.current[key] === next) {
+      return;
+    }
+
+    lastHapticValue.current[key] = next;
+
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(8);
+    }
+  }
 
   function updateA(next: number) {
     const cappedB = Math.min(bPoints, MAX_VOTE_POINTS - next);
@@ -98,7 +111,11 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
             min="0"
             max={MAX_VOTE_POINTS}
             value={aPoints}
-            onChange={(event) => updateA(Number(event.target.value))}
+            onChange={(event) => {
+              const next = Number(event.target.value);
+              triggerHapticFeedback("a", next);
+              updateA(next);
+            }}
             className="mt-5 h-2 w-full cursor-pointer accent-[color:var(--primary)]"
           />
         </div>
@@ -134,7 +151,11 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
             min="0"
             max={MAX_VOTE_POINTS}
             value={bPoints}
-            onChange={(event) => updateB(Number(event.target.value))}
+            onChange={(event) => {
+              const next = Number(event.target.value);
+              triggerHapticFeedback("b", next);
+              updateB(next);
+            }}
             className="mt-5 h-2 w-full cursor-pointer accent-[color:var(--secondary)]"
           />
         </div>

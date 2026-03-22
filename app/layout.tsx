@@ -42,7 +42,7 @@ export default async function RootLayout({
           }}
         />
         <div className="mx-auto flex h-dvh max-w-[1540px] flex-col overflow-hidden px-3 pt-3 sm:px-6 lg:px-8 lg:pt-6">
-          <header className="shell-panel sticky top-0 z-40 mb-3 shrink-0 flex flex-col gap-3 px-3 py-3 sm:mb-5 sm:gap-4 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between">
+          <header className="shell-panel z-40 mb-3 shrink-0 flex flex-col gap-3 px-3 py-3 sm:mb-5 sm:gap-4 sm:px-6 sm:py-4 lg:sticky lg:top-0 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-4">
               <Link href="/" className="flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center bg-[color:var(--primary)]/10 text-[color:var(--primary)] neon-shadow-green sm:h-11 sm:w-11">
@@ -58,6 +58,10 @@ export default async function RootLayout({
                 </div>
               </Link>
 
+              <div className="lg:hidden">
+                <ThemeSwitcher compactOnMobile />
+              </div>
+
               {isAdmin ? (
                 <div className="neon-chip status-purple hidden sm:inline-flex">
                   <ShieldCheck className="h-3.5 w-3.5" />
@@ -69,7 +73,9 @@ export default async function RootLayout({
             <div className="flex flex-1 flex-col gap-3 lg:max-w-3xl lg:flex-row lg:items-center lg:justify-end">
               {session?.user ? (
                 <>
-                  <ThemeSwitcher compactOnMobile />
+                  <div className="hidden lg:block">
+                    <ThemeSwitcher compactOnMobile />
+                  </div>
                   <div className="grid-panel hidden items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:flex lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
                     <Search className="h-4 w-4" />
                     <span className="truncate uppercase tracking-[0.16em]">
@@ -77,11 +83,7 @@ export default async function RootLayout({
                     </span>
                   </div>
                 </>
-              ) : (
-                <div className="flex items-center gap-2 self-end">
-                  <ThemeSwitcher compactOnMobile />
-                </div>
-              )}
+              ) : null}
 
               {session?.user ? (
                 <div className="hidden lg:block">
