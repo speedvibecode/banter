@@ -40,7 +40,7 @@ function FeedSection({ emptyMessage, heading, kicker, polls, statusLabel }: Feed
         {polls.length > 0 ? (
           polls.map((poll) => <PollCard key={poll.id} poll={poll} />)
         ) : (
-          <div className="section-panel px-6 py-10 text-sm uppercase tracking-[0.24em] text-[color:var(--muted)]">
+          <div className="section-panel px-6 py-10 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
             {emptyMessage}
           </div>
         )}
@@ -48,7 +48,7 @@ function FeedSection({ emptyMessage, heading, kicker, polls, statusLabel }: Feed
 
       <div className="flex justify-center pt-2">
         <button type="button" className="ghost-cta" onClick={() => router.refresh()}>
-          Click Here For New Posts
+          Refresh feed
         </button>
       </div>
     </div>
@@ -70,7 +70,7 @@ export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
               : "bg-white/[0.04] text-[color:var(--muted)]"
           }`}
         >
-          Current Polls
+          Open
         </button>
         <button
           type="button"
@@ -81,43 +81,43 @@ export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
               : "bg-white/[0.04] text-[color:var(--muted)]"
           }`}
         >
-          Past Polls
+          Closed
         </button>
       </div>
 
       <section id="feed" className="hidden gap-8 sm:grid xl:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
         <FeedSection
-          kicker="Active feed"
-          heading="Live arguments"
+          kicker="Open feed"
+          heading="Open posts"
           polls={activePolls}
           statusLabel={`${activePolls.length} open`}
-          emptyMessage="No active polls yet. Start the first argument."
+          emptyMessage="No open posts yet. Start the first one."
         />
         <FeedSection
-          kicker="Resolved feed"
-          heading="Recent verdicts"
+          kicker="Closed feed"
+          heading="Recent results"
           polls={recentPolls}
           statusLabel={`${recentPolls.length} closed`}
-          emptyMessage="Closed polls will appear here after resolution."
+          emptyMessage="Closed posts will appear here after people finish voting."
         />
       </section>
 
       <section id="feed-mobile" className="space-y-4 sm:hidden">
         {mobileView === "active" ? (
           <FeedSection
-            kicker="Active feed"
-            heading="Live arguments"
+            kicker="Open feed"
+            heading="Open posts"
             polls={activePolls}
             statusLabel={`${activePolls.length} open`}
-            emptyMessage="No active polls yet. Start the first argument."
+            emptyMessage="No open posts yet. Start the first one."
           />
         ) : (
           <FeedSection
-            kicker="Resolved feed"
-            heading="Recent verdicts"
+            kicker="Closed feed"
+            heading="Recent results"
             polls={recentPolls}
             statusLabel={`${recentPolls.length} closed`}
-            emptyMessage="Closed polls will appear here after resolution."
+            emptyMessage="Closed posts will appear here after people finish voting."
           />
         )}
       </section>

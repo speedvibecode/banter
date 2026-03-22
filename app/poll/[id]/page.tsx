@@ -39,7 +39,7 @@ export default async function PollPage({ params }: PollPageProps) {
     return (
       <main className="space-y-6">
         <section className="shell-panel grid gap-5 px-6 py-8 sm:px-8">
-          <p className="kicker">Closed signal</p>
+          <p className="kicker">Poll closed</p>
           <h1 className="font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.05em] text-white sm:text-5xl">
             {poll.title}
           </h1>
@@ -81,7 +81,7 @@ export default async function PollPage({ params }: PollPageProps) {
               ) : null}
             </div>
             <div className="section-panel px-5 py-5">
-              <p className="muted-kicker">Votes in arena</p>
+              <p className="muted-kicker">Total votes</p>
               <p className="mt-3 font-[var(--font-space)] text-5xl font-bold text-[color:var(--primary)]">
                 {poll.voteCount}
               </p>
@@ -106,13 +106,13 @@ export default async function PollPage({ params }: PollPageProps) {
 
         <aside className="section-panel grid gap-5 p-5">
           <div>
-            <p className="kicker">Live split</p>
+            <p className="kicker">Current split</p>
             <div className="mt-4">
               <VoteBar aPercent={split.aPercent} bPercent={split.bPercent} className="h-3" />
             </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
               <div className="bg-surface-low px-4 py-4">
-                <p className="muted-kicker">Vector 01</p>
+                <p className="muted-kicker">Option A</p>
                 <p className="mt-2 text-3xl font-bold text-[color:var(--primary)]">
                   {split.aPercent}%
                 </p>
@@ -121,7 +121,7 @@ export default async function PollPage({ params }: PollPageProps) {
                 </p>
               </div>
               <div className="bg-surface-low px-4 py-4">
-                <p className="muted-kicker">Vector 02</p>
+                <p className="muted-kicker">Option B</p>
                 <p className="mt-2 text-3xl font-bold text-[color:var(--secondary)]">
                   {split.bPercent}%
                 </p>
@@ -143,8 +143,7 @@ export default async function PollPage({ params }: PollPageProps) {
             Login to vote
           </p>
           <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)]">
-            You need an account to submit Banter Points on this poll. The vote path itself is
-            unchanged.
+            You need an account to vote on this post and join the discussion.
           </p>
           <div>
             <Link href={`/login?callbackUrl=/poll/${poll.id}`} className="primary-cta">

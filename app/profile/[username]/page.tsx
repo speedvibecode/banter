@@ -56,9 +56,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         <div className="shell-panel grid gap-5 p-6">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="kicker">Active performance matrix</p>
+              <p className="kicker">Activity</p>
               <h2 className="mt-2 font-[var(--font-space)] text-3xl font-bold uppercase tracking-[-0.05em] text-white">
-                Activity archive
+                Recent history
               </h2>
             </div>
           </div>
@@ -66,7 +66,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="section-panel p-5">
               <div className="flex items-center justify-between">
-                <h3 className="panel-title">Recent posted polls</h3>
+                <h3 className="panel-title">Recent posts</h3>
                 <span className="text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
                   {user.pollsCreated} total
                 </span>
@@ -97,7 +97,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
             <div className="section-panel p-5">
               <div className="flex items-center justify-between">
-                <h3 className="panel-title">Recent answered polls</h3>
+                <h3 className="panel-title">Recent votes</h3>
                 <span className="text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
                   {user.pollsParticipated} total
                 </span>

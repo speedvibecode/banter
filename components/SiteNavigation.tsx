@@ -24,7 +24,7 @@ type NavLink = {
 
 const baseLinks: NavLink[] = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/create", label: "New Judgment", icon: PlusSquare }
+  { href: "/create", label: "Create Post", icon: PlusSquare }
 ];
 
 export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
@@ -55,7 +55,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
 
   return (
     <>
-      <aside className="shell-panel sticky top-28 hidden max-h-[calc(100vh-8rem)] w-full max-w-[248px] self-start overflow-y-auto p-4 lg:flex lg:flex-col lg:justify-between">
+      <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] w-full max-w-[248px] self-start overflow-y-auto border border-white/6 bg-[rgba(14,16,18,0.88)] p-4 backdrop-blur-xl lg:flex lg:flex-col lg:justify-between">
         <nav className="space-y-2">
           {links.map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(link.match ?? `${link.href}/`);
@@ -78,24 +78,24 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
           })}
         </nav>
 
-        <div className="section-panel grid-panel space-y-4 p-4">
-          <div className="kicker">Signal Check</div>
+        <div className="section-panel space-y-4 p-4">
+          <div className="kicker">Community Snapshot</div>
           <div className="space-y-3 text-sm text-[color:var(--muted)]">
             <div className="flex items-center justify-between">
-              <span>Live Arena</span>
-              <span className="text-[color:var(--primary)]">Active</span>
+              <span>Open polls</span>
+              <span className="text-[color:var(--primary)]">Live</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Active Arguments</span>
-              <span className="text-white">Realtime</span>
+              <span>Fresh posts</span>
+              <span className="text-white">Rolling</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Resolved Arguments</span>
-              <span className="text-[color:var(--secondary)]">Synced</span>
+              <span>Recent results</span>
+              <span className="text-[color:var(--secondary)]">Updated</span>
             </div>
           </div>
           <Link href="/create" className="primary-cta w-full">
-            Launch Argument
+            Create Post
           </Link>
         </div>
       </aside>

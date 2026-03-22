@@ -31,7 +31,7 @@ export function ResultCard({
         <div className="space-y-3">
           <span className="neon-chip status-green">
             <Trophy className="h-3.5 w-3.5" />
-            Banter Verdict
+            Final Result
           </span>
           <h1 className="max-w-4xl font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.06em] text-white sm:text-5xl">
             {title}
@@ -47,13 +47,13 @@ export function ResultCard({
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="bg-surface-low px-5 py-5">
-          <p className="muted-kicker">Winning side</p>
+          <p className="muted-kicker">Top choice</p>
           <p className="mt-3 text-2xl font-semibold uppercase tracking-[0.08em] text-[color:var(--primary)]">
             {winnerLabel}
           </p>
         </div>
         <div className="bg-surface-low px-5 py-5">
-          <p className="muted-kicker">Verdict split</p>
+          <p className="muted-kicker">Vote split</p>
           <div className="mt-4">
             <VoteBar aPercent={split.aPercent} bPercent={split.bPercent} className="h-3" />
           </div>

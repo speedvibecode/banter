@@ -20,7 +20,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "Banter",
-  description: "Where arguments end."
+  description: "A place to post questions, pick a side, and see where people land."
 };
 
 export default async function RootLayout({
@@ -35,7 +35,7 @@ export default async function RootLayout({
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-[var(--font-inter)] text-zinc-50 antialiased">
         <div className="mx-auto min-h-screen max-w-[1540px] px-4 pb-28 pt-4 sm:px-6 lg:px-8 lg:pb-10 lg:pt-6">
-          <header className="shell-panel sticky top-4 z-40 mb-6 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+          <header className="sticky top-0 z-40 mb-4 border-b border-white/6 bg-[rgba(7,8,9,0.88)] px-2 py-4 backdrop-blur-xl sm:px-0">
             <div className="flex items-center justify-between gap-4">
               <Link href="/" className="flex items-center gap-3">
                 <div className="flex h-11 w-11 items-center justify-center bg-[color:var(--primary)]/10 text-[color:var(--primary)] neon-shadow-green">
@@ -45,8 +45,8 @@ export default async function RootLayout({
                   <p className="font-[var(--font-space)] text-2xl font-bold uppercase tracking-[0.18em] text-[color:var(--primary)]">
                     Banter
                   </p>
-                  <p className="text-xs uppercase tracking-[0.34em] text-[color:var(--muted)]">
-                    Kinetic judgment engine
+                  <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
+                    Discuss it. Pick a side.
                   </p>
                 </div>
               </Link>
@@ -60,10 +60,10 @@ export default async function RootLayout({
             </div>
 
             <div className="flex flex-1 flex-col gap-4 lg:max-w-3xl lg:flex-row lg:items-center lg:justify-end">
-              <div className="grid-panel flex items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
+              <div className="flex items-center gap-3 border border-white/6 bg-white/[0.03] px-4 py-3 text-sm text-[color:var(--muted)] lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
                 <Search className="h-4 w-4" />
-                <span className="truncate uppercase tracking-[0.22em]">
-                  Live arguments. decisive outcomes.
+                <span className="truncate uppercase tracking-[0.16em]">
+                  Fresh posts, active polls, and recent results.
                 </span>
               </div>
 
@@ -74,7 +74,7 @@ export default async function RootLayout({
             </div>
           </header>
 
-          <div className="grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] lg:items-start">
+          <div className="grid gap-5 lg:grid-cols-[248px_minmax(0,1fr)] lg:items-start">
             <SiteNavigation isAdmin={isAdmin} username={session?.user?.name} />
             <div className="min-w-0">{children}</div>
           </div>

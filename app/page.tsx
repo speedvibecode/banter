@@ -25,27 +25,28 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-center gap-3">
               <span className="neon-chip status-green">
                 <Activity className="h-3.5 w-3.5" />
-                Live Arena
+                New posts
               </span>
               <span className="neon-chip status-purple">
                 <Sparkles className="h-3.5 w-3.5" />
-                Reputation synced
+                Community picks
               </span>
             </div>
 
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_220px]">
               <div className="space-y-5">
-                <p className="kicker">Crowd judgment engine</p>
+                <p className="kicker">Social polling</p>
                 <h1 className="font-[var(--font-space)] text-4xl font-bold uppercase leading-[0.92] tracking-[-0.06em] text-white sm:text-6xl xl:text-7xl">
-                  Where arguments end and signal wins.
+                  Post a question. Let people choose a side.
                 </h1>
                 <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)] sm:text-lg">
-                  Earn Reputation by Settling Arguments!
+                  Banter feels closer to a social feed than a game board. Share a prompt, invite
+                  opinions, and see how the community responds in real time.
                 </p>
 
                 <div className="flex flex-wrap gap-3">
                   <Link href="/create" className="primary-cta">
-                    Launch Argument
+                    Create Post
                   </Link>
                   {!session?.user ? (
                     <>
@@ -62,25 +63,25 @@ export default async function HomePage() {
 
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                 <div className="section-panel px-4 py-5">
-                  <p className="muted-kicker">Active arguments</p>
+                  <p className="muted-kicker">Open polls</p>
                   <p className="data-value mt-3 font-[var(--font-space)] text-4xl">
                     {activePolls.length}
                   </p>
                 </div>
                 <div className="section-panel px-4 py-5">
-                  <p className="muted-kicker">Live votes</p>
+                  <p className="muted-kicker">Total votes</p>
                   <p className="data-value mt-3 font-[var(--font-space)] text-4xl">
                     {liveVotes}
                   </p>
                 </div>
                 <div className="section-panel px-4 py-5">
-                  <p className="muted-kicker">Resolved arguments</p>
+                  <p className="muted-kicker">Recent results</p>
                   <p className="data-value mt-3 font-[var(--font-space)] text-4xl">
                     {recentPolls.length}
                   </p>
                 </div>
                 <div className="section-panel px-4 py-5">
-                  <p className="muted-kicker">Live participation</p>
+                  <p className="muted-kicker">Community activity</p>
                   <p className="data-value mt-3 font-[var(--font-space)] text-4xl">
                     {liveVotes}
                   </p>
@@ -94,7 +95,7 @@ export default async function HomePage() {
           <div className="section-panel px-5 py-5">
             <div className="flex items-center gap-2">
               <Zap className="h-4 w-4 text-[color:var(--secondary)]" />
-              <p className="panel-title">Hot Arguments</p>
+              <p className="panel-title">Trending posts</p>
             </div>
             <div className="mt-5 space-y-5">
               {(activePolls.slice(0, 3).length > 0 ? activePolls.slice(0, 3) : recentPolls.slice(0, 3)).map(

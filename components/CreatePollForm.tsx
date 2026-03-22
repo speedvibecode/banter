@@ -14,7 +14,7 @@ export function CreatePollForm() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("Creating poll...");
+    setStatus("Creating post...");
 
     const formData = new FormData(event.currentTarget);
     const parsedHours = Number(hours || "0");
@@ -66,21 +66,21 @@ export function CreatePollForm() {
       <div className="grid gap-6 xl:grid-cols-[1fr_260px]">
         <div className="space-y-6">
           <label className="block space-y-2">
-            <span className="kicker">Argument title</span>
+            <span className="kicker">Post title</span>
             <input
               name="title"
               required
-              placeholder="State the argument clearly"
+              placeholder="Ask the question clearly"
               className="terminal-field text-base font-medium tracking-[0.04em]"
             />
           </label>
 
           <label className="block space-y-2">
-            <span className="kicker">Evidence and context</span>
+            <span className="kicker">Context</span>
             <textarea
               name="description"
               rows={5}
-              placeholder="Add the context voters need."
+              placeholder="Add the context people need before voting."
               className="terminal-field resize-none text-base leading-7"
             />
           </label>
@@ -146,10 +146,10 @@ export function CreatePollForm() {
 
         <aside className="grid gap-4">
           <div className="grid-panel p-5">
-            <p className="kicker">Launch protocol</p>
+            <p className="kicker">Posting Guide</p>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-[color:var(--muted)]">
-              <li>Keep the judgment binary and unambiguous.</li>
-              <li>Context stays optional but should sharpen the debate.</li>
+              <li>Keep the choice binary and easy to read.</li>
+              <li>Context is optional, but good context improves replies and votes.</li>
               <li>No hate, violence, or personal attacks.</li>
             </ul>
           </div>
@@ -161,11 +161,11 @@ export function CreatePollForm() {
           <p className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">{status}</p>
         ) : (
           <p className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">
-            Disclaimer: don&apos;t incite hate or violent thoughts and avoid personal comments.
+            Keep it civil and avoid hate, threats, or personal attacks.
           </p>
         )}
         <button type="submit" className="primary-cta min-w-[240px]">
-          Launch Argument
+          Publish Post
           <Zap className="h-4 w-4" />
         </button>
       </div>
