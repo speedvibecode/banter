@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { MAX_VOTE_POINTS } from "@/lib/constants";
 
@@ -13,16 +13,35 @@ type VoteSliderProps = {
 export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
   const [aPoints, setAPoints] = useState(50);
   const [bPoints, setBPoints] = useState(50);
+  const [activeFeedback, setActiveFeedback] = useState<"a" | "b" | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const lastHapticValue = useRef({ a: 50, b: 50 });
+  const feedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const remaining = MAX_VOTE_POINTS - (aPoints + bPoints);
 
-  function triggerHapticFeedback(key: "a" | "b", next: number) {
+  useEffect(() => {
+    return () => {
+      if (feedbackTimeoutRef.current) {
+        clearTimeout(feedbackTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  function triggerSliderFeedback(key: "a" | "b", next: number) {
     if (lastHapticValue.current[key] === next) {
       return;
     }
 
     lastHapticValue.current[key] = next;
+    setActiveFeedback(key);
+
+    if (feedbackTimeoutRef.current) {
+      clearTimeout(feedbackTimeoutRef.current);
+    }
+
+    feedbackTimeoutRef.current = setTimeout(() => {
+      setActiveFeedback((current) => (current === key ? null : current));
+    }, 180);
 
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {
       navigator.vibrate(8);
@@ -89,7 +108,9 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
               </p>
             </div>
             <span className="font-[var(--font-space)] text-4xl font-bold text-[color:var(--primary)]">
-              {aPoints}
+              <span className={activeFeedback === "a" ? "vote-value-pulse inline-block" : "inline-block"}>
+                {aPoints}
+              </span>
             </span>
           </div>
           <div className="mt-4">
@@ -113,10 +134,10 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
             value={aPoints}
             onChange={(event) => {
               const next = Number(event.target.value);
-              triggerHapticFeedback("a", next);
+              triggerSliderFeedback("a", next);
               updateA(next);
             }}
-            className="mt-5 h-2 w-full cursor-pointer accent-[color:var(--primary)]"
+            className="vote-range vote-range-a mt-5 h-2 w-full cursor-pointer accent-[color:var(--primary)]"
           />
         </div>
 
@@ -129,7 +150,9 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
               </p>
             </div>
             <span className="font-[var(--font-space)] text-4xl font-bold text-[color:var(--secondary)]">
-              {bPoints}
+              <span className={activeFeedback === "b" ? "vote-value-pulse inline-block" : "inline-block"}>
+                {bPoints}
+              </span>
             </span>
           </div>
           <div className="mt-4">
@@ -153,10 +176,10 @@ export function VoteSlider({ pollId, optionA, optionB }: VoteSliderProps) {
             value={bPoints}
             onChange={(event) => {
               const next = Number(event.target.value);
-              triggerHapticFeedback("b", next);
+              triggerSliderFeedback("b", next);
               updateB(next);
             }}
-            className="mt-5 h-2 w-full cursor-pointer accent-[color:var(--secondary)]"
+            className="vote-range vote-range-b mt-5 h-2 w-full cursor-pointer accent-[color:var(--secondary)]"
           />
         </div>
       </div>

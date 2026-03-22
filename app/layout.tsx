@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Inter, Space_Grotesk } from "next/font/google";
-import { Bolt, Search, ShieldCheck } from "lucide-react";
+import { Search, ShieldCheck } from "lucide-react";
 
 import "@/app/globals.css";
+import logoImage from "@/logo.jpeg";
 import { AuthButtons } from "@/components/AuthButtons";
 import { MobilePageTransition } from "@/components/MobilePageTransition";
 import { SiteNavigation } from "@/components/SiteNavigation";
@@ -45,8 +47,13 @@ export default async function RootLayout({
           <header className="shell-panel z-40 mb-3 shrink-0 flex flex-col gap-3 px-3 py-3 sm:mb-5 sm:gap-4 sm:px-6 sm:py-4 lg:sticky lg:top-0 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-4">
               <Link href="/" className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center bg-[color:var(--primary)]/10 text-[color:var(--primary)] neon-shadow-green sm:h-11 sm:w-11">
-                  <Bolt className="h-4 w-4 sm:h-5 sm:w-5" />
+                <div className="flex h-9 w-9 items-center justify-center overflow-hidden bg-[color:var(--primary)]/10 neon-shadow-green sm:h-11 sm:w-11">
+                  <Image
+                    src={logoImage}
+                    alt="Banter logo"
+                    className="h-full w-full object-cover"
+                    priority
+                  />
                 </div>
                 <div>
                   <p className="font-[var(--font-space)] text-[1.35rem] font-bold uppercase tracking-[0.14em] text-[color:var(--primary)] sm:text-2xl sm:tracking-[0.18em]">
