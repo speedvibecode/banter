@@ -34,13 +34,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
-      <body className="font-[var(--font-inter)] antialiased">
+      <body className="overflow-hidden font-[var(--font-inter)] antialiased">
         <script
           dangerouslySetInnerHTML={{
             __html: `try{var t=localStorage.getItem("banter-theme");document.documentElement.dataset.theme=t||"light";}catch(e){document.documentElement.dataset.theme="light";}`
           }}
         />
-        <div className="mx-auto flex min-h-dvh max-w-[1540px] flex-col px-4 pt-4 sm:px-6 lg:px-8 lg:pt-6">
+        <div className="mx-auto flex h-dvh max-w-[1540px] flex-col overflow-hidden px-4 pt-4 sm:px-6 lg:px-8 lg:pt-6">
           <header className="shell-panel z-40 mb-5 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-4">
               <Link href="/" className="flex items-center gap-3">
@@ -84,12 +84,12 @@ export default async function RootLayout({
 
           <div className="min-h-0 flex-1 pb-28 lg:pb-8">
             {session?.user ? (
-              <div className="grid gap-5 lg:grid-cols-[248px_minmax(0,1fr)]">
+              <div className="grid h-full gap-5 lg:grid-cols-[248px_minmax(0,1fr)]">
                 <SiteNavigation isAdmin={isAdmin} username={session.user.name} />
-                <div className="min-w-0">{children}</div>
+                <div className="viewport-scroll-right min-h-0">{children}</div>
               </div>
             ) : (
-              <div>{children}</div>
+              <div className="viewport-scroll-right h-full">{children}</div>
             )}
           </div>
         </div>

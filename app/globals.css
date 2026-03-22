@@ -338,6 +338,12 @@ html[data-theme="navy"] {
 }
 
 @layer utilities {
+  .viewport-scroll-right {
+    overflow-y: auto;
+    margin-right: calc(50% - 50vw);
+    padding-right: calc(50vw - 50% + 0.25rem);
+  }
+
   .text-muted {
     color: var(--muted);
   }
