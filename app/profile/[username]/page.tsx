@@ -7,13 +7,14 @@ import { getUserByUsername } from "@/services/userService";
 export const dynamic = "force-dynamic";
 
 type ProfilePageProps = {
-  params: {
+  params: Promise<{
     username: string;
-  };
+  }>;
 };
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
-  const user = await getUserByUsername(decodeURIComponent(params.username));
+  const { username } = await params;
+  const user = await getUserByUsername(decodeURIComponent(username));
 
   if (!user) {
     notFound();

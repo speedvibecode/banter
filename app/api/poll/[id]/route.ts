@@ -3,13 +3,13 @@ import { NextResponse } from "next/server";
 import { getPoll } from "@/services/pollService";
 
 type RouteContext = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export async function GET(_: Request, context: RouteContext) {
-  const { id } = context.params;
+  const { id } = await context.params;
   const poll = await getPoll(id);
 
   if (!poll) {

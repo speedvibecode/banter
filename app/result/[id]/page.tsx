@@ -6,13 +6,13 @@ import { getPoll, resolvePoll } from "@/services/pollService";
 export const dynamic = "force-dynamic";
 
 type ResultPageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export default async function ResultPage({ params }: ResultPageProps) {
-  const { id } = params;
+  const { id } = await params;
   let poll = await getPoll(id);
 
   if (!poll) {

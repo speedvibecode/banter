@@ -12,13 +12,13 @@ import { getPoll, resolvePoll } from "@/services/pollService";
 export const dynamic = "force-dynamic";
 
 type PollPageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export default async function PollPage({ params }: PollPageProps) {
-  const { id } = params;
+  const { id } = await params;
   const session = await auth();
   let poll = await getPoll(id);
 
