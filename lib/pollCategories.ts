@@ -1,4 +1,7 @@
 export const POLL_CATEGORIES = [
+  "Internet",
+  "Fashion",
+  "Education",
   "Politics",
   "Technology",
   "Sports",
