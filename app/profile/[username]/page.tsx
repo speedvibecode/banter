@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { LogoutButton } from "@/components/LogoutButton";
 import { getProfileColor, getReputationCategory } from "@/lib/profile";
 import { getUserByUsername } from "@/services/userService";
 
@@ -132,6 +133,10 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           </div>
         </div>
       </section>
+
+      <div className="lg:hidden">
+        <LogoutButton className="ghost-cta w-full justify-center" />
+      </div>
     </main>
   );
 }

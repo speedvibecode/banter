@@ -403,4 +403,20 @@ html[data-theme="navy"] {
   .text-balance {
     text-wrap: balance;
   }
+
+  .mobile-page-transition {
+    animation: mobile-page-slide 220ms ease;
+  }
+}
+
+@keyframes mobile-page-slide {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

@@ -1,37 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
-import { ArrowRight, LogOut } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+import { LogoutButton } from "@/components/LogoutButton";
 
 type AuthButtonsProps = {
-  compactUnauthenticated?: boolean;
   isAuthenticated: boolean;
   username?: string | null;
 };
 
-export function AuthButtons({
-  compactUnauthenticated = false,
-  isAuthenticated,
-  username
-}: AuthButtonsProps) {
-  const pathname = usePathname();
+export function AuthButtons({ isAuthenticated, username }: AuthButtonsProps) {
 
   if (!isAuthenticated) {
-    if (compactUnauthenticated) {
-      const isLoginPage = pathname === "/login";
-      const href = isLoginPage ? "/signup" : "/login";
-      const label = isLoginPage ? "Sign Up" : "Login";
-      const className = isLoginPage ? "secondary-cta px-4 py-2.5 text-xs" : "ghost-cta px-4 py-2.5 text-xs";
-
-      return (
-        <Link href={href} className={className}>
-          {label}
-        </Link>
-      );
-    }
-
     return (
       <div className="flex flex-wrap items-center gap-2">
         <Link href="/login" className="ghost-cta px-4 py-2.5 text-xs">
@@ -66,14 +47,7 @@ export function AuthButtons({
         </Link>
       ) : null}
 
-      <button
-        type="button"
-        onClick={() => signOut({ callbackUrl: "/" })}
-        className="ghost-cta px-4 py-2.5 text-xs"
-      >
-        <LogOut className="h-4 w-4" />
-        Logout
-      </button>
+      <LogoutButton className="ghost-cta px-4 py-2.5 text-xs" />
     </div>
   );
 }

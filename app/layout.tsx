@@ -5,6 +5,7 @@ import { Bolt, Search, ShieldCheck } from "lucide-react";
 
 import "@/app/globals.css";
 import { AuthButtons } from "@/components/AuthButtons";
+import { MobilePageTransition } from "@/components/MobilePageTransition";
 import { SiteNavigation } from "@/components/SiteNavigation";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { auth, isAdminEmail } from "@/lib/auth";
@@ -40,18 +41,18 @@ export default async function RootLayout({
             __html: `try{var t=localStorage.getItem("banter-theme");var d=window.matchMedia("(prefers-color-scheme: dark)").matches?"graphite":"light";document.documentElement.dataset.theme=t||d;}catch(e){document.documentElement.dataset.theme="light";}`
           }}
         />
-        <div className="mx-auto flex h-dvh max-w-[1540px] flex-col overflow-hidden px-4 pt-4 sm:px-6 lg:px-8 lg:pt-6">
-          <header className="shell-panel sticky top-0 z-40 mb-5 shrink-0 flex flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className="mx-auto flex h-dvh max-w-[1540px] flex-col overflow-hidden px-3 pt-3 sm:px-6 lg:px-8 lg:pt-6">
+          <header className="shell-panel sticky top-0 z-40 mb-3 shrink-0 flex flex-col gap-3 px-3 py-3 sm:mb-5 sm:gap-4 sm:px-6 sm:py-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center justify-between gap-4">
               <Link href="/" className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center bg-[color:var(--primary)]/10 text-[color:var(--primary)] neon-shadow-green">
-                  <Bolt className="h-5 w-5" />
+                <div className="flex h-9 w-9 items-center justify-center bg-[color:var(--primary)]/10 text-[color:var(--primary)] neon-shadow-green sm:h-11 sm:w-11">
+                  <Bolt className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
                 <div>
-                  <p className="font-[var(--font-space)] text-2xl font-bold uppercase tracking-[0.18em] text-[color:var(--primary)]">
+                  <p className="font-[var(--font-space)] text-[1.35rem] font-bold uppercase tracking-[0.14em] text-[color:var(--primary)] sm:text-2xl sm:tracking-[0.18em]">
                     Banter
                   </p>
-                  <p className="text-xs uppercase tracking-[0.34em] text-[color:var(--muted)]">
+                  <p className="text-[0.5rem] uppercase tracking-[0.22em] text-[color:var(--muted)] sm:text-xs sm:tracking-[0.34em]">
                     Discuss it. Pick a side.
                   </p>
                 </div>
@@ -65,11 +66,11 @@ export default async function RootLayout({
               ) : null}
             </div>
 
-            <div className="flex flex-1 flex-col gap-4 lg:max-w-3xl lg:flex-row lg:items-center lg:justify-end">
+            <div className="flex flex-1 flex-col gap-3 lg:max-w-3xl lg:flex-row lg:items-center lg:justify-end">
               {session?.user ? (
                 <>
-                  <ThemeSwitcher />
-                  <div className="grid-panel flex items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
+                  <ThemeSwitcher compactOnMobile />
+                  <div className="grid-panel hidden items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:flex lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
                     <Search className="h-4 w-4" />
                     <span className="truncate uppercase tracking-[0.16em]">
                       Open feed, closed feed, and live debates.
@@ -78,25 +79,30 @@ export default async function RootLayout({
                 </>
               ) : (
                 <div className="flex items-center gap-2 self-end">
-                  <ThemeSwitcher />
-                  <AuthButtons compactUnauthenticated isAuthenticated={false} />
+                  <ThemeSwitcher compactOnMobile />
                 </div>
               )}
 
               {session?.user ? (
-                <AuthButtons isAuthenticated username={session.user.name} />
+                <div className="hidden lg:block">
+                  <AuthButtons isAuthenticated username={session.user.name} />
+                </div>
               ) : null}
             </div>
           </header>
 
-          <div className="min-h-0 flex-1 pb-28 lg:pb-8">
+          <div className="min-h-0 flex-1 pb-20 lg:pb-8">
             {session?.user ? (
               <div className="grid h-full gap-5 lg:grid-cols-[248px_minmax(0,1fr)]">
                 <SiteNavigation isAdmin={isAdmin} username={session.user.name} />
-                <div className="viewport-scroll-right min-h-0 overflow-y-auto">{children}</div>
+                <div className="viewport-scroll-right min-h-0 overflow-y-auto">
+                  <MobilePageTransition>{children}</MobilePageTransition>
+                </div>
               </div>
             ) : (
-              <div className="viewport-scroll-right h-full overflow-y-auto">{children}</div>
+              <div className="viewport-scroll-right h-full overflow-y-auto">
+                <MobilePageTransition>{children}</MobilePageTransition>
+              </div>
             )}
           </div>
         </div>

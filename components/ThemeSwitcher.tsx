@@ -11,6 +11,10 @@ type ThemeOption = {
   swatches: [string, string, string];
 };
 
+type ThemeSwitcherProps = {
+  compactOnMobile?: boolean;
+};
+
 const STORAGE_KEY = "banter-theme";
 
 const themeOptions: ThemeOption[] = [
@@ -46,7 +50,7 @@ function getPreferredTheme(): ThemeName {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "graphite" : "light";
 }
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ compactOnMobile = false }: ThemeSwitcherProps) {
   const [open, setOpen] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<ThemeName>("light");
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -75,12 +79,12 @@ export function ThemeSwitcher() {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className="ghost-cta min-w-[148px] px-4 py-3 text-[0.68rem]"
+        className={`ghost-cta px-3 py-2.5 text-[0.68rem] ${compactOnMobile ? "min-w-0 sm:min-w-[148px] sm:px-4 sm:py-3" : "min-w-[148px] px-4 py-3"}`}
         aria-haspopup="menu"
         aria-expanded={open}
       >
         <Palette className="h-4 w-4" />
-        <span>{activeTheme.label}</span>
+        <span className={compactOnMobile ? "hidden sm:inline" : undefined}>{activeTheme.label}</span>
         <ChevronDown className={`h-4 w-4 transition ${open ? "rotate-180" : ""}`} />
       </button>
 

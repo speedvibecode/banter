@@ -27,7 +27,7 @@ export function AuthLanding({
   return (
     <main className="space-y-6">
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_420px]">
-        <div className="grid gap-6">
+        <div className="order-2 grid gap-6 xl:order-1">
           <section className="shell-panel overflow-hidden">
             <div className="grid gap-8 px-6 py-7 sm:px-8 sm:py-8">
               <div className="flex flex-wrap gap-3">
@@ -115,7 +115,7 @@ export function AuthLanding({
           </section>
         </div>
 
-        <section id="auth" className="grid gap-4 self-start xl:sticky xl:top-0">
+        <section id="auth" className="order-1 grid gap-4 self-start xl:order-2 xl:sticky xl:top-0">
           <div className="shell-panel grid gap-5 px-6 py-7 sm:px-8">
             <div className="space-y-3">
               <p className="kicker">{mode === "signup" ? "Create account" : "Welcome back"}</p>

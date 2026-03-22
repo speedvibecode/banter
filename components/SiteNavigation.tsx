@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   Home,
   PlusSquare,
+  Search,
   ShieldAlert,
   TimerReset,
   UserCircle2
@@ -16,6 +17,7 @@ type SiteNavigationProps = {
 };
 
 type NavLink = {
+  disabled?: boolean;
   href: string;
   label: string;
   icon: typeof Home;
@@ -45,6 +47,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
     { href: "/", label: "Home", icon: Home, match: "/" },
     { href: "/create", label: "Create", icon: PlusSquare },
     ...(isAdmin ? [{ href: "/admin/moderation", label: "Review", icon: TimerReset }] : []),
+    { href: "/#", label: "Search", icon: Search, disabled: true },
     {
       href: username ? `/profile/${encodeURIComponent(username)}` : "/login",
       label: "Profile",
@@ -101,23 +104,35 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
       </aside>
 
       <nav
-        className={`shell-panel fixed inset-x-4 bottom-4 z-50 grid gap-2 p-2 lg:hidden ${
-          mobileLinks.length === 4 ? "grid-cols-4" : "grid-cols-3"
+        className={`shell-panel fixed inset-x-0 bottom-0 z-50 grid gap-1 rounded-none border-x-0 border-b-0 px-2 pb-[calc(env(safe-area-inset-bottom)+0.7rem)] pt-2 lg:hidden ${
+          mobileLinks.length === 5 ? "grid-cols-5" : "grid-cols-4"
         }`}
       >
         {mobileLinks.map((link) => {
             const isActive =
-              pathname === link.href ||
-              (link.match && pathname.startsWith(link.match) && link.match !== "/");
+              !link.disabled &&
+              (pathname === link.href ||
+                (link.match && pathname.startsWith(link.match) && link.match !== "/"));
             const Icon = link.icon;
+
+            const className = `flex flex-col items-center gap-1 px-2 py-2 text-[0.56rem] font-semibold uppercase tracking-[0.2em] ${
+              isActive ? "text-[color:var(--primary)]" : "text-[color:var(--muted)]"
+            }`;
+
+            if (link.disabled) {
+              return (
+                <button key={link.label} type="button" className={className} aria-label={`${link.label} coming soon`}>
+                  <Icon className="h-4 w-4" />
+                  <span>{link.label}</span>
+                </button>
+              );
+            }
 
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex flex-col items-center gap-1 px-3 py-2 text-[0.6rem] font-semibold uppercase tracking-[0.24em] ${
-                  isActive ? "text-[color:var(--primary)]" : "text-[color:var(--muted)]"
-                }`}
+                className={className}
               >
                 <Icon className="h-4 w-4" />
                 <span>{link.label}</span>
