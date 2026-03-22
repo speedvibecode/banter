@@ -24,7 +24,7 @@ type NavLink = {
 
 const baseLinks: NavLink[] = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/create", label: "Create Post", icon: PlusSquare }
+  { href: "/create", label: "Create Poll", icon: PlusSquare }
 ];
 
 export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
@@ -86,7 +86,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
               <span className="text-[color:var(--primary)]">Live</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Fresh posts</span>
+              <span>Fresh polls</span>
               <span className="text-white">Rolling</span>
             </div>
             <div className="flex items-center justify-between">
@@ -95,7 +95,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
             </div>
           </div>
           <Link href="/create" className="primary-cta w-full">
-            Create Post
+            Create Poll
           </Link>
         </div>
       </aside>

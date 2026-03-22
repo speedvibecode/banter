@@ -46,7 +46,7 @@ export default async function HomePage() {
 
                 <div className="flex flex-wrap gap-3">
                   <Link href="/create" className="primary-cta">
-                    Create Post
+                    Create Poll
                   </Link>
                   {!session?.user ? (
                     <>

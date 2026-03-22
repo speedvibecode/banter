@@ -14,7 +14,7 @@ export function CreatePollForm() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("Creating post...");
+    setStatus("Creating poll...");
 
     const formData = new FormData(event.currentTarget);
     const parsedHours = Number(hours || "0");
@@ -63,10 +63,10 @@ export function CreatePollForm() {
 
   return (
     <form onSubmit={handleSubmit} className="shell-panel grid gap-6 p-6 sm:p-8">
-      <div className="grid gap-6 xl:grid-cols-[1fr_260px]">
+      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_280px] xl:items-start">
         <div className="space-y-6">
           <label className="block space-y-2">
-            <span className="kicker">Post title</span>
+            <span className="kicker">Poll title</span>
             <input
               name="title"
               required
@@ -144,8 +144,8 @@ export function CreatePollForm() {
           </div>
         </div>
 
-        <aside className="grid gap-4">
-          <div className="grid-panel p-5">
+        <aside className="grid gap-4 self-start">
+          <div className="section-panel p-5">
             <p className="kicker">Posting Guide</p>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-[color:var(--muted)]">
               <li>Keep the choice binary and easy to read.</li>
@@ -165,7 +165,7 @@ export function CreatePollForm() {
           </p>
         )}
         <button type="submit" className="primary-cta min-w-[240px]">
-          Publish Post
+          Post Poll
           <Zap className="h-4 w-4" />
         </button>
       </div>
