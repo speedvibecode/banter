@@ -49,7 +49,7 @@ export function AuthLanding({
                   </h1>
                   <p className="max-w-2xl text-base leading-7 text-[color:var(--muted)] sm:text-lg">
                     Join the feed to throw out a take, pick a side, and watch the open and closed
-                    conversations roll in without the front page getting in the way.
+                    conversations roll in.
                   </p>
                 </div>
 

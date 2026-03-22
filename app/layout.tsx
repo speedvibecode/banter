@@ -67,14 +67,14 @@ export default async function RootLayout({
 
             <div className="flex flex-1 flex-col gap-4 lg:max-w-3xl lg:flex-row lg:items-center lg:justify-end">
               <ThemeSwitcher />
-              <div className="grid-panel flex items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
-                <Search className="h-4 w-4" />
-                <span className="truncate uppercase tracking-[0.16em]">
-                  {session?.user
-                    ? "Open feed, closed feed, and live debates."
-                    : "Sign in to post, vote, and join the live feed."}
-                </span>
-              </div>
+              {session?.user ? (
+                <div className="grid-panel flex items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
+                  <Search className="h-4 w-4" />
+                  <span className="truncate uppercase tracking-[0.16em]">
+                    Open feed, closed feed, and live debates.
+                  </span>
+                </div>
+              ) : null}
 
               {session?.user ? (
                 <AuthButtons isAuthenticated username={session.user.name} />
