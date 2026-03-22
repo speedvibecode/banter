@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Zap } from "lucide-react";
 
 import { DEFAULT_POLL_DURATION_MINUTES, MAX_POLL_DURATION_MINUTES } from "@/lib/constants";
+import { POLL_CATEGORIES } from "@/lib/pollCategories";
 
 export function CreatePollForm() {
   const router = useRouter();
@@ -109,12 +110,21 @@ export function CreatePollForm() {
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="space-y-2">
               <span className="kicker">Category</span>
-              <input
+              <select
                 name="category"
-                defaultValue="internet"
                 required
+                defaultValue=""
                 className="terminal-field text-base font-medium tracking-[0.04em]"
-              />
+              >
+                <option value="" disabled>
+                  Select a category
+                </option>
+                {POLL_CATEGORIES.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="space-y-2">
               <span className="kicker">Runtime (max 24 hours)</span>

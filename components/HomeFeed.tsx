@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { PollCard } from "@/components/PollCard";
+import { ALL_CATEGORY_FILTER, POLL_CATEGORIES } from "@/lib/pollCategories";
 import type { PollCardData } from "@/lib/types";
 
 type HomeFeedProps = {
@@ -57,9 +58,47 @@ function FeedSection({ emptyMessage, heading, kicker, polls, statusLabel }: Feed
 
 export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
   const [mobileView, setMobileView] = useState<"active" | "recent">("active");
+  const [selectedCategory, setSelectedCategory] = useState<string>(ALL_CATEGORY_FILTER);
+  const filteredActivePolls =
+    selectedCategory === ALL_CATEGORY_FILTER
+      ? activePolls
+      : activePolls.filter((poll) => poll.category === selectedCategory);
+  const filteredRecentPolls =
+    selectedCategory === ALL_CATEGORY_FILTER
+      ? recentPolls
+      : recentPolls.filter((poll) => poll.category === selectedCategory);
 
   return (
     <>
+      <section className="mb-6 space-y-3">
+        <div>
+          <p className="kicker">Browse by category</p>
+          <h2 className="mt-2 font-[var(--font-space)] text-2xl font-bold uppercase tracking-[-0.05em] text-[color:var(--text)]">
+            Filter the feed
+          </h2>
+        </div>
+        <div className="flex gap-2 overflow-x-auto pb-2">
+          {[ALL_CATEGORY_FILTER, ...POLL_CATEGORIES].map((category) => {
+            const isActive = selectedCategory === category;
+
+            return (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setSelectedCategory(category)}
+                className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
+                  isActive
+                    ? "bg-[color:var(--surface-high)] text-[color:var(--primary)] neon-shadow-green"
+                    : "bg-[color:var(--ghost-bg)] text-[color:var(--muted)] hover:bg-[color:var(--ghost-hover)] hover:text-[color:var(--text)]"
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
       <div className="flex gap-2 sm:hidden">
         <button
           type="button"
@@ -89,16 +128,16 @@ export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
         <FeedSection
           kicker="Open feed"
           heading="Open posts"
-          polls={activePolls}
-          statusLabel={`${activePolls.length} open`}
-          emptyMessage="No open posts yet. Start the first one."
+          polls={filteredActivePolls}
+          statusLabel={`${filteredActivePolls.length} open`}
+          emptyMessage={`No open posts in ${selectedCategory === ALL_CATEGORY_FILTER ? "this feed" : selectedCategory}.`}
         />
         <FeedSection
           kicker="Closed feed"
           heading="Recent results"
-          polls={recentPolls}
-          statusLabel={`${recentPolls.length} closed`}
-          emptyMessage="Closed posts will appear here after people finish voting."
+          polls={filteredRecentPolls}
+          statusLabel={`${filteredRecentPolls.length} closed`}
+          emptyMessage={`No closed posts in ${selectedCategory === ALL_CATEGORY_FILTER ? "this feed" : selectedCategory}.`}
         />
       </section>
 
@@ -107,17 +146,17 @@ export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
           <FeedSection
             kicker="Open feed"
             heading="Open posts"
-            polls={activePolls}
-            statusLabel={`${activePolls.length} open`}
-            emptyMessage="No open posts yet. Start the first one."
+            polls={filteredActivePolls}
+            statusLabel={`${filteredActivePolls.length} open`}
+            emptyMessage={`No open posts in ${selectedCategory === ALL_CATEGORY_FILTER ? "this feed" : selectedCategory}.`}
           />
         ) : (
           <FeedSection
             kicker="Closed feed"
             heading="Recent results"
-            polls={recentPolls}
-            statusLabel={`${recentPolls.length} closed`}
-            emptyMessage="Closed posts will appear here after people finish voting."
+            polls={filteredRecentPolls}
+            statusLabel={`${filteredRecentPolls.length} closed`}
+            emptyMessage={`No closed posts in ${selectedCategory === ALL_CATEGORY_FILTER ? "this feed" : selectedCategory}.`}
           />
         )}
       </section>

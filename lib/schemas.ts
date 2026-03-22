@@ -5,6 +5,7 @@ import {
   MAX_VOTE_POINTS,
   REPORT_REASONS
 } from "@/lib/constants";
+import { POLL_CATEGORIES } from "@/lib/pollCategories";
 
 export const identitySchema = z.object({
   username: z.string().trim().min(2).max(30),
@@ -16,7 +17,7 @@ export const createPollSchema = z.object({
   description: z.string().trim().max(500).optional().or(z.literal("")),
   optionA: z.string().trim().min(1).max(100),
   optionB: z.string().trim().min(1).max(100),
-  category: z.string().trim().min(2).max(50),
+  category: z.enum(POLL_CATEGORIES),
   durationMinutes: z
     .number()
     .int()
