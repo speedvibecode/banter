@@ -59,6 +59,7 @@ function FeedSection({ emptyMessage, heading, kicker, polls, statusLabel }: Feed
 export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
   const [mobileView, setMobileView] = useState<"active" | "recent">("active");
   const [selectedCategory, setSelectedCategory] = useState<string>(ALL_CATEGORY_FILTER);
+  const orderedCategories = [...POLL_CATEGORIES].reverse();
   const filteredActivePolls =
     selectedCategory === ALL_CATEGORY_FILTER
       ? activePolls
@@ -78,7 +79,7 @@ export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
           </h2>
         </div>
         <div className="flex gap-2 overflow-x-auto pb-2">
-          {[ALL_CATEGORY_FILTER, ...POLL_CATEGORIES].map((category) => {
+          {[ALL_CATEGORY_FILTER, ...orderedCategories].map((category) => {
             const isActive = selectedCategory === category;
 
             return (
