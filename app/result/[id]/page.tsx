@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { ResultFeedbackCard } from "@/components/ResultFeedbackCard";
 import { ResultCard } from "@/components/ResultCard";
 import { auth } from "@/lib/auth";
 import { getPoll, resolvePoll } from "@/services/pollService";
+import { getUserProgression } from "@/services/progressionService";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +32,9 @@ export default async function ResultPage({ params }: ResultPageProps) {
   if (!poll || !poll.winner) {
     notFound();
   }
+
+  const viewerVote = session?.user ? poll.votes.find((vote) => vote.userId === session.user.id) : null;
+  const progression = session?.user?.id ? await getUserProgression(session.user.id) : null;
 
   return (
     <main className="space-y-6">
@@ -70,6 +75,15 @@ export default async function ResultPage({ params }: ResultPageProps) {
           </>
         }
       />
+
+      {viewerVote && progression ? (
+        <ResultFeedbackCard
+          aPoints={viewerVote.aPoints}
+          bPoints={viewerVote.bPoints}
+          currentProgression={progression}
+          winner={poll.winner as "A" | "B"}
+        />
+      ) : null}
     </main>
   );
 }

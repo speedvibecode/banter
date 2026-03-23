@@ -126,7 +126,7 @@ export default async function RootLayout({
 
           <div className="min-h-0 flex-1 pb-20 lg:pb-8">
             {session?.user ? (
-              <div className="grid h-full gap-5 lg:grid-cols-[248px_minmax(0,1fr)]">
+              <div className="grid h-full gap-5 lg:grid-cols-[276px_minmax(0,1fr)]">
                 <SiteNavigation isAdmin={isAdmin} progression={progression} username={session.user.name} />
                 <div className="viewport-scroll-right min-h-0 overflow-y-auto">
                   <MobilePageTransition>{children}</MobilePageTransition>
