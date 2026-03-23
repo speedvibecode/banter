@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
 import { Flame, Sparkles, TrendingUp } from "lucide-react";
 
 import type { ProgressionSummary } from "@/lib/progression";
@@ -15,14 +19,21 @@ export function ProgressionPanel({
   showBadges = false,
   showVotes = false
 }: ProgressionPanelProps) {
+  const [open, setOpen] = useState(false);
+
   return (
+    <>
     <section className={`section-panel grid ${compact ? "gap-3 p-4" : "gap-4 p-5"}`}>
       <div className={compact ? "grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3" : "flex items-start justify-between gap-4"}>
         <div>
           <p className={compact ? "text-[0.52rem] font-semibold uppercase tracking-[0.26em] text-[color:var(--primary)]" : "kicker"}>Current title</p>
-          <h2 className={`mt-2 font-[var(--font-space)] font-bold uppercase tracking-[-0.05em] text-[color:var(--text)] ${compact ? "text-[1.35rem]" : "text-3xl"}`}>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className={`mt-2 font-[var(--font-space)] font-bold uppercase tracking-[-0.05em] text-[color:var(--text)] transition hover:text-[color:var(--primary)] ${compact ? "text-[1.35rem]" : "text-3xl"}`}
+          >
             {progression.title}
-          </h2>
+          </button>
         </div>
         <div className={compact ? "min-w-[92px]" : "text-right"}>
           <p className={compact ? "text-[0.5rem] font-semibold uppercase tracking-[0.22em] text-[color:var(--muted)]" : "muted-kicker"}>Reputation</p>
@@ -96,5 +107,70 @@ export function ProgressionPanel({
         </div>
       ) : null}
     </section>
+      {open ? (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/60 px-4 py-6">
+          <div className="shell-panel max-h-[90vh] w-full max-w-2xl overflow-y-auto p-6 sm:p-8">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="kicker">Reputation guide</p>
+                <h2 className="mt-2 font-[var(--font-space)] text-3xl font-bold uppercase tracking-[-0.05em] text-[color:var(--text)]">
+                  How reputation works
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="text-sm uppercase tracking-[0.16em] text-[color:var(--muted)] hover:text-[color:var(--text)]"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="mt-6 grid gap-4">
+              <div className="bg-surface-low px-4 py-4">
+                <p className="kicker">What is Reputation?</p>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                  Your reputation shows how good you are at judging arguments.
+                  The better your predictions, the higher your reputation.
+                </p>
+              </div>
+              <div className="bg-surface-low px-4 py-4">
+                <p className="kicker">How do you gain reputation?</p>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                  You earn reputation when your prediction is correct.
+                  The stronger your conviction, the bigger the reward.
+                </p>
+              </div>
+              <div className="bg-surface-low px-4 py-4">
+                <p className="kicker">Can you lose reputation?</p>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                  Yes — if your prediction is wrong, you lose reputation.
+                  This keeps the system skill-based.
+                </p>
+              </div>
+              <div className="bg-surface-low px-4 py-4">
+                <p className="kicker">What are Titles?</p>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                  Titles represent your level as a predictor.
+                  As your reputation grows, your title improves:
+                  Rookie → Expert → Oracle
+                </p>
+              </div>
+              <div className="bg-surface-low px-4 py-4">
+                <p className="kicker">What about streaks?</p>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                  Voting daily builds your streak.
+                  Streaks help you stay consistent and improve faster.
+                </p>
+              </div>
+            </div>
+
+            <Link href="/reputation" onClick={() => setOpen(false)} className="primary-cta mt-6 inline-flex">
+              Learn more about reputation →
+            </Link>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
