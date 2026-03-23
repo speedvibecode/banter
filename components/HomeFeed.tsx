@@ -4,11 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { PollCard } from "@/components/PollCard";
+import { ProgressionPanel } from "@/components/ProgressionPanel";
 import { ALL_CATEGORY_FILTER, POLL_CATEGORIES } from "@/lib/pollCategories";
+import type { ProgressionSummary } from "@/lib/progression";
 import type { PollCardData } from "@/lib/types";
 
 type HomeFeedProps = {
   activePolls: PollCardData[];
+  progression: ProgressionSummary;
   recentPolls: PollCardData[];
 };
 
@@ -56,7 +59,7 @@ function FeedSection({ emptyMessage, heading, kicker, polls, statusLabel }: Feed
   );
 }
 
-export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
+export function HomeFeed({ activePolls, progression, recentPolls }: HomeFeedProps) {
   const [mobileView, setMobileView] = useState<"active" | "recent">("active");
   const [selectedCategory, setSelectedCategory] = useState<string>(ALL_CATEGORY_FILTER);
   const orderedCategories = [...POLL_CATEGORIES].reverse();
@@ -71,6 +74,10 @@ export function HomeFeed({ activePolls, recentPolls }: HomeFeedProps) {
 
   return (
     <>
+      <div className="mb-6 lg:hidden">
+        <ProgressionPanel progression={progression} />
+      </div>
+
       <section className="mb-6 space-y-3">
         <div>
           <p className="kicker">Browse by category</p>

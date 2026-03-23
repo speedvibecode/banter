@@ -59,6 +59,8 @@ export async function validateVote(input: VoteInput) {
 export async function submitVote(input: VoteInput) {
   const { user } = await validateVote(input);
   const exposure = calculateExposure(input.aPoints, input.bPoints);
+  const nextParticipationCount = user.pollsParticipated + 1;
+  const participationBonus = nextParticipationCount % 20 === 0 ? 2 : 0;
 
   const vote = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const createdVote = await tx.vote.create({
@@ -89,6 +91,9 @@ export async function submitVote(input: VoteInput) {
     await tx.user.update({
       where: { id: user.id },
       data: {
+        reputation: {
+          increment: participationBonus
+        },
         pollsParticipated: {
           increment: 1
         }
@@ -98,7 +103,7 @@ export async function submitVote(input: VoteInput) {
     return createdVote;
   });
 
-  logger.info({ pollId: input.pollId, userId: user.id }, "vote submitted");
+  logger.info({ pollId: input.pollId, userId: user.id, participationBonus }, "vote submitted");
   return vote;
 }
 

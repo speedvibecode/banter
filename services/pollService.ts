@@ -4,7 +4,7 @@ import { FEED_PAGE_SIZE } from "@/lib/constants";
 import { logger } from "@/lib/logger";
 import { determineWinner } from "@/lib/pollLogic";
 import { prisma } from "@/lib/prisma";
-import { calculateExposure, reputationChange } from "@/lib/reputation";
+import { reputationChange } from "@/lib/reputation";
 import type { PollCardData } from "@/lib/types";
 import { incrementPollsCreated } from "@/services/userService";
 
@@ -203,16 +203,18 @@ export async function resolvePoll(pollId: string) {
     });
 
     for (const vote of poll.votes) {
-      const exposure = calculateExposure(vote.aPoints, vote.bPoints);
-      const change = reputationChange(exposure, winner);
-      await tx.user.update({
-        where: { id: vote.userId },
-        data: {
-          reputation: {
-            increment: change
+      const change = reputationChange(vote.aPoints, vote.bPoints, winner);
+
+      if (change !== 0) {
+        await tx.user.update({
+          where: { id: vote.userId },
+          data: {
+            reputation: {
+              increment: change
+            }
           }
-        }
-      });
+        });
+      }
     }
 
     return updated;

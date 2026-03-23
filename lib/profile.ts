@@ -1,3 +1,5 @@
+import { getTitleFromReputation } from "@/lib/progression";
+
 const PROFILE_COLORS = [
   "bg-rose-500",
   "bg-orange-500",
@@ -15,21 +17,5 @@ export function getProfileColor(userId: string): string {
 }
 
 export function getReputationCategory(reputation: number): string {
-  if (reputation >= 100) {
-    return "Heavyweight";
-  }
-
-  if (reputation >= 40) {
-    return "Contender";
-  }
-
-  if (reputation >= 10) {
-    return "Challenger";
-  }
-
-  if (reputation >= 0) {
-    return "Rookie";
-  }
-
-  return "Wildcard";
+  return getTitleFromReputation(reputation);
 }

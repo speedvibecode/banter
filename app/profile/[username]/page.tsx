@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 
 import { LogoutButton } from "@/components/LogoutButton";
 import { ProfilePollList } from "@/components/ProfilePollList";
+import { ProgressionPanel } from "@/components/ProgressionPanel";
 import { auth } from "@/lib/auth";
-import { getProfileColor, getReputationCategory } from "@/lib/profile";
+import { getProfileColor } from "@/lib/profile";
+import { getUserProgression } from "@/services/progressionService";
 import { getUserByUsername } from "@/services/userService";
 
 export const dynamic = "force-dynamic";
@@ -25,8 +27,8 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   }
 
   const profileColor = getProfileColor(user.id);
-  const reputationCategory = getReputationCategory(user.reputation);
   const canManagePolls = session?.user?.id === user.id;
+  const progression = await getUserProgression(user.id);
 
   return (
     <main className="space-y-6">
@@ -39,7 +41,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
               {user.username}
             </h1>
             <p className="mt-2 text-sm uppercase tracking-[0.24em] text-[color:var(--secondary)]">
-              {reputationCategory}
+              {progression?.title ?? "Rookie"}
             </p>
           </div>
           <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
@@ -48,14 +50,28 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
               <p className="mt-2 text-3xl font-bold text-[color:var(--primary)]">{user.reputation}</p>
             </div>
             <div className="bg-surface-low px-4 py-4">
+              <p className="muted-kicker">Title</p>
+              <p className="mt-2 text-3xl font-bold text-[color:var(--text)]">
+                {progression?.title ?? "Rookie"}
+              </p>
+            </div>
+            <div className="bg-surface-low px-4 py-4">
+              <p className="muted-kicker">Streak</p>
+              <p className="mt-2 text-3xl font-bold text-[color:var(--text)]">
+                {progression?.currentStreak ?? 0}
+              </p>
+            </div>
+            <div className="bg-surface-low px-4 py-4">
+              <p className="muted-kicker">Total votes</p>
+              <p className="mt-2 text-3xl font-bold text-[color:var(--text)]">{user.pollsParticipated}</p>
+            </div>
+            <div className="bg-surface-low px-4 py-4">
               <p className="muted-kicker">Polls created</p>
               <p className="mt-2 text-3xl font-bold text-[color:var(--text)]">{user.pollsCreated}</p>
             </div>
-            <div className="bg-surface-low px-4 py-4">
-              <p className="muted-kicker">Polls answered</p>
-              <p className="mt-2 text-3xl font-bold text-[color:var(--text)]">{user.pollsParticipated}</p>
-            </div>
           </div>
+
+          {progression ? <div className="mt-6"><ProgressionPanel progression={progression} showBadges showVotes /></div> : null}
         </div>
 
         <div className="shell-panel grid gap-5 p-6">

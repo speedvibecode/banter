@@ -12,7 +12,9 @@ import { AuthButtons } from "@/components/AuthButtons";
 import { MobilePageTransition } from "@/components/MobilePageTransition";
 import { SiteNavigation } from "@/components/SiteNavigation";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import { TitleUpgradeToast } from "@/components/TitleUpgradeToast";
 import { auth, isAdminEmail } from "@/lib/auth";
+import { getUserProgression } from "@/services/progressionService";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,6 +38,7 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   const isAdmin = isAdminEmail(session?.user?.email);
+  const progression = session?.user?.id ? await getUserProgression(session.user.id) : null;
 
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
@@ -124,7 +127,7 @@ export default async function RootLayout({
           <div className="min-h-0 flex-1 pb-20 lg:pb-8">
             {session?.user ? (
               <div className="grid h-full gap-5 lg:grid-cols-[248px_minmax(0,1fr)]">
-                <SiteNavigation isAdmin={isAdmin} username={session.user.name} />
+                <SiteNavigation isAdmin={isAdmin} progression={progression} username={session.user.name} />
                 <div className="viewport-scroll-right min-h-0 overflow-y-auto">
                   <MobilePageTransition>{children}</MobilePageTransition>
                 </div>
@@ -136,6 +139,7 @@ export default async function RootLayout({
             )}
           </div>
         </div>
+        {progression ? <TitleUpgradeToast currentTitle={progression.title} /> : null}
       </body>
     </html>
   );

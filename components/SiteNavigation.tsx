@@ -11,8 +11,12 @@ import {
   UserCircle2
 } from "lucide-react";
 
+import { ProgressionPanel } from "@/components/ProgressionPanel";
+import type { ProgressionSummary } from "@/lib/progression";
+
 type SiteNavigationProps = {
   isAdmin: boolean;
+  progression?: ProgressionSummary | null;
   username?: string | null;
 };
 
@@ -29,7 +33,7 @@ const baseLinks: NavLink[] = [
   { href: "/create", label: "Create Poll", icon: PlusSquare }
 ];
 
-export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
+export function SiteNavigation({ isAdmin, progression, username }: SiteNavigationProps) {
   const pathname = usePathname();
   const links = [
     ...baseLinks,
@@ -81,22 +85,8 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
           })}
         </nav>
 
-        <div className="section-panel space-y-4 p-4">
-          <div className="kicker">Community Snapshot</div>
-          <div className="space-y-3 text-sm text-[color:var(--muted)]">
-            <div className="flex items-center justify-between">
-              <span>Open polls</span>
-              <span className="text-[color:var(--primary)]">Live</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Fresh polls</span>
-              <span className="text-[color:var(--text)]">Rolling</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Recent results</span>
-              <span className="text-[color:var(--secondary)]">Updated</span>
-            </div>
-          </div>
+        <div className="space-y-4">
+          {progression ? <ProgressionPanel progression={progression} /> : null}
           <Link href="/create" className="primary-cta w-full">
             Create Poll
           </Link>
