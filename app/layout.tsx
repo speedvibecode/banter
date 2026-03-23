@@ -97,12 +97,19 @@ export default async function RootLayout({
                   <div className="hidden lg:block">
                     <ThemeSwitcher compactOnMobile />
                   </div>
-                  <div className="grid-panel hidden items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:flex lg:min-w-[320px] lg:max-w-[420px] lg:flex-1">
+                  <form
+                    action="/search"
+                    className="grid-panel hidden items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)] lg:flex lg:min-w-[320px] lg:max-w-[420px] lg:flex-1"
+                  >
                     <Search className="h-4 w-4" />
-                    <span className="truncate uppercase tracking-[0.16em]">
-                      Open feed, closed feed, and live debates.
-                    </span>
-                  </div>
+                    <input
+                      type="search"
+                      name="q"
+                      placeholder="Search polls and profiles"
+                      className="w-full bg-transparent text-sm uppercase tracking-[0.16em] text-[color:var(--text)] outline-none placeholder:text-[color:var(--muted)]"
+                      aria-label="Search polls and profiles"
+                    />
+                  </form>
                 </>
               ) : null}
 

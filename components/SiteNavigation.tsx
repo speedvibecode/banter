@@ -47,7 +47,7 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
     { href: "/", label: "Home", icon: Home, match: "/" },
     { href: "/create", label: "Create", icon: PlusSquare },
     ...(isAdmin ? [{ href: "/admin/moderation", label: "Review", icon: TimerReset }] : []),
-    { href: "/#", label: "Search", icon: Search, disabled: true },
+    { href: "/search", label: "Search", icon: Search, match: "/search" },
     {
       href: username ? `/profile/${encodeURIComponent(username)}` : "/login",
       label: "Profile",
@@ -110,7 +110,6 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
       >
         {mobileLinks.map((link) => {
             const isActive =
-              !link.disabled &&
               (pathname === link.href ||
                 (link.match && pathname.startsWith(link.match) && link.match !== "/"));
             const Icon = link.icon;
@@ -118,15 +117,6 @@ export function SiteNavigation({ isAdmin, username }: SiteNavigationProps) {
             const className = `flex flex-col items-center gap-1 px-2 py-2 text-[0.56rem] font-semibold uppercase tracking-[0.2em] ${
               isActive ? "text-[color:var(--primary)]" : "text-[color:var(--muted)]"
             }`;
-
-            if (link.disabled) {
-              return (
-                <button key={link.label} type="button" className={className} aria-label={`${link.label} coming soon`}>
-                  <Icon className="h-4 w-4" />
-                  <span>{link.label}</span>
-                </button>
-              );
-            }
 
             return (
               <Link
