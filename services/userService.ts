@@ -34,7 +34,7 @@ export async function findOrCreateUser(identity: IdentityInput) {
 }
 
 export async function getUserByUsername(username: string) {
-  return prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { username },
     select: {
       id: true,
@@ -47,10 +47,10 @@ export async function getUserByUsername(username: string) {
           id: true,
           title: true,
           status: true,
-          createdAt: true
+          createdAt: true,
+          endTime: true
         },
-        orderBy: { createdAt: "desc" },
-        take: 3
+        orderBy: { createdAt: "desc" }
       },
       votes: {
         select: {
@@ -69,6 +69,23 @@ export async function getUserByUsername(username: string) {
       }
     }
   });
+
+  if (!user) {
+    return null;
+  }
+
+  return {
+    ...user,
+    polls: user.polls.map((poll) => ({
+      ...poll,
+      createdAt: poll.createdAt.toISOString(),
+      endTime: poll.endTime.toISOString()
+    })),
+    votes: user.votes.map((vote) => ({
+      ...vote,
+      createdAt: vote.createdAt.toISOString()
+    }))
+  };
 }
 
 export async function incrementPollsCreated(userId: string) {

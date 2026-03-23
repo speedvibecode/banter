@@ -243,3 +243,59 @@ export async function markPollRemoved(pollId: string) {
   logger.info({ pollId }, "poll removed");
   return poll;
 }
+
+export async function deletePollByCreator(pollId: string, userId: string) {
+  const poll = await prisma.poll.findUnique({
+    where: { id: pollId },
+    select: {
+      id: true,
+      creatorId: true,
+      status: true,
+      endTime: true
+    }
+  });
+
+  if (!poll || poll.status === "REMOVED") {
+    throw new Error("Poll not found.");
+  }
+
+  if (poll.creatorId !== userId) {
+    throw new Error("You can only delete your own polls.");
+  }
+
+  const isClosed = poll.status === "CLOSED" || (poll.status === "ACTIVE" && poll.endTime <= new Date());
+
+  if (!isClosed) {
+    throw new Error("Only closed polls can be deleted.");
+  }
+
+  await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    await tx.report.deleteMany({
+      where: { pollId }
+    });
+
+    await tx.vote.deleteMany({
+      where: { pollId }
+    });
+
+    await tx.poll.delete({
+      where: { id: pollId }
+    });
+
+    await tx.user.updateMany({
+      where: {
+        id: userId,
+        pollsCreated: {
+          gt: 0
+        }
+      },
+      data: {
+        pollsCreated: {
+          decrement: 1
+        }
+      }
+    });
+  });
+
+  logger.info({ pollId, userId }, "poll deleted by creator");
+}

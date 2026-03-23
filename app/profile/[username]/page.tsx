@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { LogoutButton } from "@/components/LogoutButton";
+import { ProfilePollList } from "@/components/ProfilePollList";
+import { auth } from "@/lib/auth";
 import { getProfileColor, getReputationCategory } from "@/lib/profile";
 import { getUserByUsername } from "@/services/userService";
 
@@ -15,6 +17,7 @@ type ProfilePageProps = {
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const { username } = await params;
+  const session = await auth();
   const user = await getUserByUsername(decodeURIComponent(username));
 
   if (!user) {
@@ -23,6 +26,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   const profileColor = getProfileColor(user.id);
   const reputationCategory = getReputationCategory(user.reputation);
+  const canManagePolls = session?.user?.id === user.id;
 
   return (
     <main className="space-y-6">
@@ -65,36 +69,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           </div>
 
           <div className="grid gap-4 lg:grid-cols-2">
-            <div className="section-panel p-5">
-              <div className="flex items-center justify-between">
-                <h3 className="panel-title">Recent posts</h3>
-                <span className="text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
-                  {user.pollsCreated} total
-                </span>
-              </div>
-              <div className="mt-4 space-y-3">
-                {user.polls.length > 0 ? (
-                  user.polls.map((poll) => (
-                    <Link
-                      key={poll.id}
-                      href={poll.status === "CLOSED" ? `/result/${poll.id}` : `/poll/${poll.id}`}
-                      className="block bg-[color:var(--surface-overlay)] px-4 py-4 transition hover:bg-[color:var(--surface-overlay-hover)]"
-                    >
-                      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">
-                        {poll.title}
-                      </p>
-                      <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[color:var(--muted)]">
-                        Posted {poll.createdAt.toLocaleDateString()}
-                      </p>
-                    </Link>
-                  ))
-                ) : (
-                  <p className="text-sm uppercase tracking-[0.18em] text-[color:var(--muted)]">
-                    No polls posted yet.
-                  </p>
-                )}
-              </div>
-            </div>
+            <ProfilePollList initialPolls={user.polls} canManage={canManagePolls} />
 
             <div className="section-panel p-5">
               <div className="flex items-center justify-between">
@@ -119,7 +94,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                         {vote.poll.title}
                       </p>
                       <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[color:var(--muted)]">
-                        Answered {vote.createdAt.toLocaleDateString()}
+                        Answered {new Date(vote.createdAt).toLocaleDateString()}
                       </p>
                     </Link>
                   ))
