@@ -3,35 +3,37 @@ import { Flame, Sparkles, TrendingUp } from "lucide-react";
 import type { ProgressionSummary } from "@/lib/progression";
 
 type ProgressionPanelProps = {
+  compact?: boolean;
   progression: ProgressionSummary;
   showBadges?: boolean;
   showVotes?: boolean;
 };
 
 export function ProgressionPanel({
+  compact = false,
   progression,
   showBadges = false,
   showVotes = false
 }: ProgressionPanelProps) {
   return (
-    <section className="section-panel grid gap-4 p-5">
+    <section className={`section-panel grid ${compact ? "gap-3 p-4" : "gap-4 p-5"}`}>
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="kicker">Current title</p>
-          <h2 className="mt-2 font-[var(--font-space)] text-3xl font-bold uppercase tracking-[-0.05em] text-[color:var(--text)]">
+          <h2 className={`mt-2 font-[var(--font-space)] font-bold uppercase tracking-[-0.05em] text-[color:var(--text)] ${compact ? "text-2xl" : "text-3xl"}`}>
             {progression.title}
           </h2>
         </div>
         <div className="text-right">
           <p className="muted-kicker">Reputation</p>
-          <p className="mt-2 text-3xl font-bold text-[color:var(--primary)]">
+          <p className={`mt-2 font-bold text-[color:var(--primary)] ${compact ? "text-2xl" : "text-3xl"}`}>
             {progression.reputation}
           </p>
         </div>
       </div>
 
       <div className="space-y-2">
-        <div className="flex items-center justify-between gap-3 text-[0.68rem] uppercase tracking-[0.18em] text-[color:var(--muted)]">
+        <div className={`flex items-center justify-between gap-3 uppercase text-[color:var(--muted)] ${compact ? "text-[0.58rem] tracking-[0.14em]" : "text-[0.68rem] tracking-[0.18em]"}`}>
           <span>Progress</span>
           <span>
             {progression.nextTitle && progression.nextTitleMinReputation
@@ -39,7 +41,7 @@ export function ProgressionPanel({
               : "Top title reached"}
           </span>
         </div>
-        <div className="h-3 overflow-hidden bg-[color:var(--surface-overlay)]">
+        <div className={`overflow-hidden bg-[color:var(--surface-overlay)] ${compact ? "h-2" : "h-3"}`}>
           <div
             className="h-full bg-[linear-gradient(90deg,var(--primary),var(--secondary))] transition-[width] duration-300"
             style={{ width: `${Math.round(progression.progress * 100)}%` }}
@@ -47,29 +49,29 @@ export function ProgressionPanel({
         </div>
       </div>
 
-      <div className={`grid gap-3 ${showVotes ? "sm:grid-cols-2 xl:grid-cols-3" : "sm:grid-cols-2"}`}>
-        <div className="bg-surface-low px-4 py-4">
+      <div className={`grid gap-3 ${showVotes && !compact ? "sm:grid-cols-2 xl:grid-cols-3" : "grid-cols-2"}`}>
+        <div className={`bg-surface-low ${compact ? "px-3 py-3" : "px-4 py-4"}`}>
           <p className="muted-kicker">Streak</p>
-          <p className="mt-2 flex items-center gap-2 text-2xl font-bold text-[color:var(--text)]">
-            <Flame className="h-5 w-5 text-[color:var(--secondary)]" />
+          <p className={`mt-2 flex items-center gap-2 font-bold text-[color:var(--text)] ${compact ? "text-lg" : "text-2xl"}`}>
+            <Flame className={`${compact ? "h-4 w-4" : "h-5 w-5"} text-[color:var(--secondary)]`} />
             {progression.currentStreak} day{progression.currentStreak === 1 ? "" : "s"}
           </p>
         </div>
 
         {showVotes ? (
-          <div className="bg-surface-low px-4 py-4">
+          <div className={`bg-surface-low ${compact ? "px-3 py-3" : "px-4 py-4"}`}>
             <p className="muted-kicker">Total votes</p>
-            <p className="mt-2 flex items-center gap-2 text-2xl font-bold text-[color:var(--text)]">
-              <TrendingUp className="h-5 w-5 text-[color:var(--primary)]" />
+            <p className={`mt-2 flex items-center gap-2 font-bold text-[color:var(--text)] ${compact ? "text-lg" : "text-2xl"}`}>
+              <TrendingUp className={`${compact ? "h-4 w-4" : "h-5 w-5"} text-[color:var(--primary)]`} />
               {progression.totalVotes}
             </p>
           </div>
         ) : null}
 
-        <div className="bg-surface-low px-4 py-4">
+        <div className={`bg-surface-low ${compact ? "px-3 py-3" : "px-4 py-4"}`}>
           <p className="muted-kicker">Next step</p>
-          <p className="mt-2 flex items-center gap-2 text-2xl font-bold text-[color:var(--text)]">
-            <Sparkles className="h-5 w-5 text-[color:var(--primary)]" />
+          <p className={`mt-2 flex items-center gap-2 font-bold text-[color:var(--text)] ${compact ? "text-lg" : "text-2xl"}`}>
+            <Sparkles className={`${compact ? "h-4 w-4" : "h-5 w-5"} text-[color:var(--primary)]`} />
             {Math.round(progression.progress * 100)}%
           </p>
         </div>

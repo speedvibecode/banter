@@ -70,11 +70,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
               <p className="mt-2 text-3xl font-bold text-[color:var(--text)]">{user.pollsCreated}</p>
             </div>
           </div>
-
-          {progression ? <div className="mt-6"><ProgressionPanel progression={progression} showBadges showVotes /></div> : null}
         </div>
 
         <div className="shell-panel grid gap-5 p-6">
+          {progression ? <ProgressionPanel progression={progression} showBadges showVotes /> : null}
+
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="kicker">Activity</p>

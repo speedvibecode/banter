@@ -75,7 +75,7 @@ export function HomeFeed({ activePolls, progression, recentPolls }: HomeFeedProp
   return (
     <>
       <div className="mb-6 lg:hidden">
-        <ProgressionPanel progression={progression} />
+        <ProgressionPanel progression={progression} compact />
       </div>
 
       <section className="mb-6 space-y-3">

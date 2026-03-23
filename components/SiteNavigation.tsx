@@ -86,7 +86,7 @@ export function SiteNavigation({ isAdmin, progression, username }: SiteNavigatio
         </nav>
 
         <div className="space-y-4">
-          {progression ? <ProgressionPanel progression={progression} /> : null}
+          {progression ? <ProgressionPanel progression={progression} compact /> : null}
           <Link href="/create" className="primary-cta w-full">
             Create Poll
           </Link>
