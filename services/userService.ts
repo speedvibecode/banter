@@ -50,6 +50,11 @@ export async function getUserByUsername(username: string) {
           createdAt: true,
           endTime: true
         },
+        where: {
+          status: {
+            not: "REMOVED"
+          }
+        },
         orderBy: { createdAt: "desc" }
       },
       votes: {
