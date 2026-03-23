@@ -136,6 +136,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             ? `Showing matches for "${query}". Open polls are listed first, then closed polls, then profiles.`
             : "Use the search bar to find live debates, closed results, and user profiles."}
         </p>
+        <form action="/search" className="grid-panel flex items-center gap-3 px-4 py-3 text-sm text-[color:var(--muted)]">
+          <Search className="h-4 w-4 shrink-0" />
+          <input
+            type="search"
+            name="q"
+            defaultValue={query}
+            placeholder="Search polls and profiles"
+            className="w-full bg-transparent text-sm uppercase tracking-[0.16em] text-[color:var(--text)] outline-none placeholder:text-[color:var(--muted)]"
+            aria-label="Search polls and profiles"
+          />
+        </form>
       </section>
 
       {query ? (
