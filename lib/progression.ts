@@ -13,11 +13,13 @@ export type TitleName = (typeof TITLE_LEVELS)[number]["title"];
 
 export type ProgressionSummary = {
   badges: string[];
+  correctPredictionStreak: number;
   currentStreak: number;
   nextTitle: TitleName | null;
   nextTitleMinReputation: number | null;
   progress: number;
   reputation: number;
+  streakProtected: boolean;
   title: TitleName;
   titleMinReputation: number;
   totalVotes: number;
@@ -40,7 +42,11 @@ export function getTitleIndex(title: TitleName): number {
 export function getProgressionSummary(
   reputation: number,
   totalVotes: number,
-  currentStreak: number
+  currentStreak: number,
+  options?: {
+    correctPredictionStreak?: number;
+    streakProtected?: boolean;
+  }
 ): ProgressionSummary {
   const currentIndex = TITLE_LEVELS.findLastIndex((level) => reputation >= level.minReputation);
   const currentLevel = TITLE_LEVELS[Math.max(0, currentIndex)];
@@ -57,11 +63,13 @@ export function getProgressionSummary(
 
   return {
     badges: getBadges(totalVotes),
+    correctPredictionStreak: options?.correctPredictionStreak ?? 0,
     currentStreak,
     nextTitle: nextLevel?.title ?? null,
     nextTitleMinReputation: nextLevel?.minReputation ?? null,
     progress,
     reputation,
+    streakProtected: options?.streakProtected ?? false,
     title: currentLevel.title,
     titleMinReputation: currentLevel.minReputation,
     totalVotes
@@ -86,9 +94,9 @@ export function getBadges(totalVotes: number): string[] {
   return badges;
 }
 
-export function getCurrentStreak(voteDates: Date[], now = new Date()): number {
+export function getCurrentStreak(voteDates: Date[], now = new Date()): { count: number; protectedByGrace: boolean } {
   if (voteDates.length === 0) {
-    return 0;
+    return { count: 0, protectedByGrace: false };
   }
 
   const uniqueDays = Array.from(
@@ -96,20 +104,48 @@ export function getCurrentStreak(voteDates: Date[], now = new Date()): number {
   ).sort((left, right) => right.localeCompare(left));
 
   const today = startOfUtcDay(now);
-  const yesterday = addUtcDays(today, -1);
   const latestVoteDay = parseUtcDay(uniqueDays[0]);
+  const dayGap = dayDifference(today, latestVoteDay);
 
-  if (latestVoteDay.getTime() !== today.getTime() && latestVoteDay.getTime() !== yesterday.getTime()) {
-    return 0;
+  if (dayGap > 2) {
+    return { count: 0, protectedByGrace: false };
   }
 
   let streak = 1;
-  let expectedDay = latestVoteDay;
+  let previousDay = latestVoteDay;
 
   for (let index = 1; index < uniqueDays.length; index += 1) {
-    expectedDay = addUtcDays(expectedDay, -1);
+    const nextDay = parseUtcDay(uniqueDays[index]);
+    const gap = dayDifference(previousDay, nextDay);
 
-    if (parseUtcDay(uniqueDays[index]).getTime() !== expectedDay.getTime()) {
+    if (gap > 2) {
+      break;
+    }
+
+    streak += 1;
+    previousDay = nextDay;
+  }
+
+  return {
+    count: streak,
+    protectedByGrace: dayGap === 2
+  };
+}
+
+export function getCorrectPredictionStreak(
+  results: Array<{ aPoints: number; bPoints: number; winner: "A" | "B" | null }>
+): number {
+  let streak = 0;
+
+  for (const result of results) {
+    if (!result.winner) {
+      continue;
+    }
+
+    const isCorrect =
+      result.winner === "A" ? result.aPoints > result.bPoints : result.bPoints > result.aPoints;
+
+    if (!isCorrect) {
       break;
     }
 
@@ -129,4 +165,8 @@ function addUtcDays(date: Date, days: number): Date {
 
 function parseUtcDay(day: string): Date {
   return new Date(`${day}T00:00:00.000Z`);
+}
+
+function dayDifference(left: Date, right: Date): number {
+  return Math.round((left.getTime() - right.getTime()) / (24 * 60 * 60 * 1000));
 }

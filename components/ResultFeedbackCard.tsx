@@ -24,6 +24,11 @@ function getConvictionLabel(exposure: number) {
   return "Safe pick";
 }
 
+function pickMessage(seed: string, options: string[]) {
+  const hash = seed.split("").reduce((total, char) => total + char.charCodeAt(0), 0);
+  return options[Math.abs(hash) % options.length];
+}
+
 export function ResultFeedbackCard({
   aPoints,
   bPoints,
@@ -38,10 +43,37 @@ export function ResultFeedbackCard({
   const previousProgression = getProgressionSummary(
     previousReputation,
     currentProgression.totalVotes,
-    currentProgression.currentStreak
+    currentProgression.currentStreak,
+    {
+      correctPredictionStreak: Math.max(0, currentProgression.correctPredictionStreak - (wasCorrect ? 1 : 0)),
+      streakProtected: currentProgression.streakProtected
+    }
   );
   const titleChanged = getTitleFromReputation(previousReputation) !== currentProgression.title;
   const progressThreshold = currentProgression.nextTitleMinReputation ?? currentProgression.reputation;
+  const messageSeed = `${winner}-${aPoints}-${bPoints}-${currentProgression.reputation}`;
+  const positiveMessage = pickMessage(messageSeed, [
+    "Strong prediction!",
+    "Perfect call!",
+    "Sharp judgment!",
+    "Well played!"
+  ]);
+  const supportiveMessage = pickMessage(messageSeed, [
+    "Better luck next time",
+    "Tough call - keep going",
+    "You'll get the next one",
+    "Close one - stay sharp"
+  ]);
+  const identityMessage = pickMessage(`${messageSeed}-identity`, [
+    "You're becoming a strong predictor",
+    "Your judgment is improving",
+    "Nice consistency"
+  ]);
+  const showIdentityMessage =
+    wasCorrect ||
+    Math.abs(`${messageSeed}-identity`.split("").reduce((total, char) => total + char.charCodeAt(0), 0)) % 5 === 0;
+  const isNearMiss = !wasCorrect && Math.abs(exposure) < 10;
+  const momentumActive = currentProgression.correctPredictionStreak >= 3;
 
   return (
     <section className="shell-panel grid gap-5 px-6 py-6 sm:px-8">
@@ -56,6 +88,24 @@ export function ResultFeedbackCard({
             {wasCorrect ? <CheckCircle2 className="h-6 w-6" /> : <XCircle className="h-6 w-6" />}
             {wasCorrect ? "Correct prediction" : "Incorrect prediction"}
           </h2>
+          <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
+            {wasCorrect ? positiveMessage : supportiveMessage}
+          </p>
+          {isNearMiss ? (
+            <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
+              Close call. You almost got it.
+            </p>
+          ) : null}
+          {momentumActive && wasCorrect ? (
+            <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--primary)]">
+              You&apos;re on a roll!
+            </p>
+          ) : null}
+          {showIdentityMessage ? (
+            <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
+              {identityMessage}
+            </p>
+          ) : null}
         </div>
         <div className="section-panel min-w-[180px] px-5 py-4 text-right">
           <p className="muted-kicker">Reputation change</p>
@@ -82,6 +132,11 @@ export function ResultFeedbackCard({
             <Flame className="h-5 w-5 text-[color:var(--secondary)]" />
             {currentProgression.currentStreak} day{currentProgression.currentStreak === 1 ? "" : "s"}
           </p>
+          {currentProgression.streakProtected ? (
+            <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[color:var(--muted)]">
+              Grace day protected
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -89,7 +144,7 @@ export function ResultFeedbackCard({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="muted-kicker">Progress</p>
           <p className="text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
-            {previousReputation} → {currentProgression.reputation}
+            {previousReputation} to {currentProgression.reputation}
             {currentProgression.nextTitle ? ` / ${progressThreshold}` : " / Top title"}
           </p>
         </div>
@@ -100,7 +155,7 @@ export function ResultFeedbackCard({
           />
         </div>
         <p className="text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
-          {previousProgression.title} → {currentProgression.title}
+          {previousProgression.title} to {currentProgression.title}
         </p>
       </div>
 

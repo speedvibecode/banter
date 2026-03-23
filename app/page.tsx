@@ -29,11 +29,13 @@ export default async function HomePage() {
           recentPolls={recentPolls}
           progression={{
             badges: [],
+            correctPredictionStreak: 0,
             currentStreak: 0,
             nextTitle: "Learner",
             nextTitleMinReputation: 50,
             progress: 0,
             reputation: 0,
+            streakProtected: false,
             title: "Rookie",
             titleMinReputation: 0,
             totalVotes: 0

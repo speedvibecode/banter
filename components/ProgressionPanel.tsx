@@ -17,16 +17,16 @@ export function ProgressionPanel({
 }: ProgressionPanelProps) {
   return (
     <section className={`section-panel grid ${compact ? "gap-3 p-4" : "gap-4 p-5"}`}>
-      <div className="flex items-start justify-between gap-4">
+      <div className={compact ? "grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3" : "flex items-start justify-between gap-4"}>
         <div>
-          <p className="kicker">Current title</p>
-          <h2 className={`mt-2 font-[var(--font-space)] font-bold uppercase tracking-[-0.05em] text-[color:var(--text)] ${compact ? "text-2xl" : "text-3xl"}`}>
+          <p className={compact ? "text-[0.52rem] font-semibold uppercase tracking-[0.26em] text-[color:var(--primary)]" : "kicker"}>Current title</p>
+          <h2 className={`mt-2 font-[var(--font-space)] font-bold uppercase tracking-[-0.05em] text-[color:var(--text)] ${compact ? "text-[1.35rem]" : "text-3xl"}`}>
             {progression.title}
           </h2>
         </div>
-        <div className="text-right">
-          <p className="muted-kicker">Reputation</p>
-          <p className={`mt-2 font-bold text-[color:var(--primary)] ${compact ? "text-2xl" : "text-3xl"}`}>
+        <div className={compact ? "min-w-[92px]" : "text-right"}>
+          <p className={compact ? "text-[0.5rem] font-semibold uppercase tracking-[0.22em] text-[color:var(--muted)]" : "muted-kicker"}>Reputation</p>
+          <p className={`mt-2 font-bold text-[color:var(--primary)] ${compact ? "text-[1.35rem]" : "text-3xl"}`}>
             {progression.reputation}
           </p>
         </div>
