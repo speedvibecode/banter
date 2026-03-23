@@ -6,6 +6,8 @@ import { Search, ShieldCheck } from "lucide-react";
 
 import "@/app/globals.css";
 import logoImage from "@/logo.jpeg";
+import logoLightImage from "@/logo_light.png";
+import logoMidnightImage from "@/logo_midnight.png";
 import { AuthButtons } from "@/components/AuthButtons";
 import { MobilePageTransition } from "@/components/MobilePageTransition";
 import { SiteNavigation } from "@/components/SiteNavigation";
@@ -51,7 +53,19 @@ export default async function RootLayout({
                   <Image
                     src={logoImage}
                     alt="Banter logo"
-                    className="h-full w-full object-cover"
+                    className="theme-logo theme-logo-graphite h-full w-full object-cover"
+                    priority
+                  />
+                  <Image
+                    src={logoLightImage}
+                    alt="Banter logo"
+                    className="theme-logo theme-logo-light h-full w-full object-cover"
+                    priority
+                  />
+                  <Image
+                    src={logoMidnightImage}
+                    alt="Banter logo"
+                    className="theme-logo theme-logo-navy h-full w-full object-cover"
                     priority
                   />
                 </div>
