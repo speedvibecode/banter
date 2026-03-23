@@ -76,7 +76,9 @@ export function ProfilePollList({ initialPolls, canManage }: ProfilePollListProp
           </span>
         </div>
       </div>
-      <div className="mt-4 space-y-3">
+      <div
+        className={`mt-4 space-y-3 ${showArchive && polls.length > 5 ? "max-h-[29rem] overflow-y-auto pr-2" : ""}`}
+      >
         {visiblePolls.length > 0 ? (
           visiblePolls.map((poll) => {
             const isClosed = isClosedPoll(poll);

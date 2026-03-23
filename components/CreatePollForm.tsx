@@ -114,13 +114,13 @@ export function CreatePollForm() {
                 name="category"
                 required
                 defaultValue=""
-                className="terminal-field text-base font-medium tracking-[0.04em]"
+                className="terminal-field bg-surface-high text-base font-medium tracking-[0.04em] text-theme"
               >
-                <option value="" disabled>
+                <option value="" disabled className="bg-surface-high text-theme">
                   Select a category
                 </option>
                 {POLL_CATEGORIES.map((category) => (
-                  <option key={category} value={category}>
+                  <option key={category} value={category} className="bg-surface-high text-theme">
                     {category}
                   </option>
                 ))}
