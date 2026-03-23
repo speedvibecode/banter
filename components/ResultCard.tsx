@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Trophy } from "lucide-react";
 
-import { VoteBar } from "@/components/VoteBar";
+import { ResultTrendModal } from "@/components/ResultTrendModal";
 import { calculateSplit } from "@/lib/pollLogic";
 
 type ResultCardProps = {
@@ -62,7 +62,7 @@ export function ResultCard({
             <div className="bg-surface-low px-4 py-4 sm:px-5 sm:py-5">
               <p className="muted-kicker">Vote split</p>
               <div className="mt-4">
-                <VoteBar aPercent={split.aPercent} bPercent={split.bPercent} className="h-3" />
+                <ResultTrendModal aPercent={split.aPercent} bPercent={split.bPercent} title={title} />
               </div>
             </div>
           </div>
