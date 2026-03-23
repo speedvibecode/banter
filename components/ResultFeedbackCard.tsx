@@ -76,16 +76,16 @@ export function ResultFeedbackCard({
   const momentumActive = currentProgression.correctPredictionStreak >= 3;
 
   return (
-    <section className="shell-panel grid gap-5 px-6 py-6 sm:px-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
+    <section className="shell-panel grid gap-5 px-5 py-5 sm:px-8 sm:py-6">
+      <div className="grid gap-4 sm:flex sm:flex-wrap sm:items-start sm:justify-between">
         <div>
           <p className="kicker">Your feedback</p>
           <h2
-            className={`mt-2 flex items-center gap-2 text-2xl font-bold uppercase tracking-[0.08em] ${
+            className={`mt-2 flex items-center gap-2 text-xl font-bold uppercase tracking-[0.08em] sm:text-2xl ${
               wasCorrect ? "text-[color:var(--primary)]" : "text-red-400"
             }`}
           >
-            {wasCorrect ? <CheckCircle2 className="h-6 w-6" /> : <XCircle className="h-6 w-6" />}
+            {wasCorrect ? <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6" /> : <XCircle className="h-5 w-5 sm:h-6 sm:w-6" />}
             {wasCorrect ? "Correct prediction" : "Incorrect prediction"}
           </h2>
           <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
@@ -107,9 +107,9 @@ export function ResultFeedbackCard({
             </p>
           ) : null}
         </div>
-        <div className="section-panel min-w-[180px] px-5 py-4 text-right">
+        <div className="section-panel w-full px-4 py-4 text-left sm:min-w-[180px] sm:w-auto sm:px-5 sm:text-right">
           <p className="muted-kicker">Reputation change</p>
-          <p className={`mt-2 text-3xl font-bold ${wasCorrect ? "text-[color:var(--primary)]" : "text-red-400"}`}>
+          <p className={`mt-2 text-2xl font-bold sm:text-3xl ${wasCorrect ? "text-[color:var(--primary)]" : "text-red-400"}`}>
             {signedDelta}
           </p>
         </div>
@@ -118,18 +118,18 @@ export function ResultFeedbackCard({
       <div className="grid gap-4 md:grid-cols-3">
         <div className="bg-surface-low px-4 py-4">
           <p className="muted-kicker">Conviction</p>
-          <p className="mt-2 text-xl font-bold text-[color:var(--text)]">{getConvictionLabel(exposure)}</p>
+          <p className="mt-2 text-lg font-bold text-[color:var(--text)] sm:text-xl">{getConvictionLabel(exposure)}</p>
         </div>
         <div className="bg-surface-low px-4 py-4">
           <p className="muted-kicker">Prediction split</p>
-          <p className="mt-2 text-xl font-bold text-[color:var(--text)]">
+          <p className="mt-2 text-lg font-bold text-[color:var(--text)] sm:text-xl">
             {aPoints} / {bPoints}
           </p>
         </div>
         <div className="bg-surface-low px-4 py-4">
           <p className="muted-kicker">Streak</p>
-          <p className="mt-2 flex items-center gap-2 text-xl font-bold text-[color:var(--text)]">
-            <Flame className="h-5 w-5 text-[color:var(--secondary)]" />
+          <p className="mt-2 flex items-center gap-2 text-lg font-bold text-[color:var(--text)] sm:text-xl">
+            <Flame className="h-4 w-4 text-[color:var(--secondary)] sm:h-5 sm:w-5" />
             {currentProgression.currentStreak} day{currentProgression.currentStreak === 1 ? "" : "s"}
           </p>
           {currentProgression.streakProtected ? (
@@ -141,7 +141,7 @@ export function ResultFeedbackCard({
       </div>
 
       <div className="grid gap-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="grid gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
           <p className="muted-kicker">Progress</p>
           <p className="text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
             {previousReputation} to {currentProgression.reputation}
@@ -160,8 +160,8 @@ export function ResultFeedbackCard({
       </div>
 
       {titleChanged ? (
-        <div className="section-panel flex items-center gap-3 px-5 py-4">
-          <Sparkles className="h-5 w-5 text-[color:var(--primary)]" />
+        <div className="section-panel flex items-center gap-3 px-4 py-4 sm:px-5">
+          <Sparkles className="h-4 w-4 text-[color:var(--primary)] sm:h-5 sm:w-5" />
           <div>
             <p className="kicker">Title upgraded!</p>
             <p className="mt-1 text-sm font-semibold uppercase tracking-[0.08em] text-[color:var(--text)]">

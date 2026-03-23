@@ -31,35 +31,35 @@ export function ResultCard({
   const winnerLabel = winner === "A" ? optionA : optionB;
 
   return (
-    <div className="shell-panel relative overflow-hidden p-6 sm:p-8">
+    <div className="shell-panel relative overflow-hidden p-5 sm:p-8">
       <div className={locked ? "pointer-events-none select-none blur-xl" : undefined} aria-hidden={locked}>
-        <div className="grid gap-8">
-          <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="grid gap-6 sm:gap-8">
+          <div className="grid gap-4 sm:flex sm:flex-wrap sm:items-start sm:justify-between">
             <div className="space-y-3">
               <span className="neon-chip status-green">
                 <Trophy className="h-3.5 w-3.5" />
                 Final Result
               </span>
-              <h1 className="max-w-4xl font-[var(--font-space)] text-4xl font-bold uppercase tracking-[-0.06em] text-[color:var(--text)] sm:text-5xl">
+              <h1 className="max-w-4xl font-[var(--font-space)] text-3xl font-bold uppercase tracking-[-0.06em] text-[color:var(--text)] sm:text-5xl">
                 {title}
               </h1>
             </div>
-            <div className="section-panel min-w-[160px] px-5 py-5 text-right">
+            <div className="section-panel w-full px-4 py-4 text-left sm:min-w-[160px] sm:w-auto sm:px-5 sm:py-5 sm:text-right">
               <p className="muted-kicker">Total votes</p>
-              <p className="mt-3 font-[var(--font-space)] text-4xl font-bold text-[color:var(--primary)]">
+              <p className="mt-3 font-[var(--font-space)] text-3xl font-bold text-[color:var(--primary)] sm:text-4xl">
                 {voteCount}
               </p>
             </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="bg-surface-low px-5 py-5">
+            <div className="bg-surface-low px-4 py-4 sm:px-5 sm:py-5">
               <p className="muted-kicker">Top choice</p>
-              <p className="mt-3 text-2xl font-semibold uppercase tracking-[0.08em] text-[color:var(--primary)]">
+              <p className="mt-3 text-xl font-semibold uppercase tracking-[0.08em] text-[color:var(--primary)] sm:text-2xl">
                 {winnerLabel}
               </p>
             </div>
-            <div className="bg-surface-low px-5 py-5">
+            <div className="bg-surface-low px-4 py-4 sm:px-5 sm:py-5">
               <p className="muted-kicker">Vote split</p>
               <div className="mt-4">
                 <VoteBar aPercent={split.aPercent} bPercent={split.bPercent} className="h-3" />
@@ -68,16 +68,16 @@ export function ResultCard({
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="section-panel px-5 py-5">
+            <div className="section-panel px-4 py-4 sm:px-5 sm:py-5">
               <p className="kicker">Option A</p>
-              <p className="mt-3 text-3xl font-bold text-[color:var(--text)]">{split.aPercent}%</p>
+              <p className="mt-3 text-2xl font-bold text-[color:var(--text)] sm:text-3xl">{split.aPercent}%</p>
               <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
                 {optionA}
               </p>
             </div>
-            <div className="section-panel px-5 py-5">
+            <div className="section-panel px-4 py-4 sm:px-5 sm:py-5">
               <p className="kicker">Option B</p>
-              <p className="mt-3 text-3xl font-bold text-[color:var(--text)]">{split.bPercent}%</p>
+              <p className="mt-3 text-2xl font-bold text-[color:var(--text)] sm:text-3xl">{split.bPercent}%</p>
               <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[color:var(--muted)]">
                 {optionB}
               </p>
